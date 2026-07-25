@@ -50,8 +50,8 @@ export default function AdminDashboard() {
       {/* Header */}
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
         <div className="flex items-center gap-3 mb-2">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#D4AF37]/20 to-[#D4AF37]/5 border border-[#D4AF37]/20 flex items-center justify-center">
-            <Sparkles className="w-5 h-5 text-[#D4AF37]" />
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#2563EB]/20 to-[#2563EB]/5 border border-[#2563EB]/20 flex items-center justify-center">
+            <Sparkles className="w-5 h-5 text-[#2563EB]" />
           </div>
           <div>
             <h1 className="text-2xl font-bold text-white tracking-tight">Dashboard</h1>
@@ -118,7 +118,7 @@ export default function AdminDashboard() {
               </div>
               <h2 className="text-sm font-semibold text-white">Recent Orders</h2>
             </div>
-            <Link href="/admin/orders" className="text-xs text-[#D4AF37]/70 hover:text-[#D4AF37] transition-colors">
+            <Link href="/admin/orders" className="text-xs text-[#2563EB]/70 hover:text-[#2563EB] transition-colors">
               View All
             </Link>
           </div>
@@ -157,7 +157,7 @@ export default function AdminDashboard() {
                         order.status === 'confirmed' && 'bg-blue-500/10 text-blue-400',
                         order.status === 'preparing' && 'bg-amber-500/10 text-amber-400',
                         order.status === 'ready' && 'bg-emerald-500/10 text-emerald-400',
-                        order.status === 'served' && 'bg-[#D4AF37]/10 text-[#D4AF37]',
+                        order.status === 'served' && 'bg-[#2563EB]/10 text-[#2563EB]',
                       )}>{order.status}</span>
                     </div>
                   </motion.div>
@@ -178,7 +178,7 @@ export default function AdminDashboard() {
               </div>
               <h2 className="text-sm font-semibold text-white">Top Rated Dishes</h2>
             </div>
-            <Link href="/admin/menu" className="text-xs text-[#D4AF37]/70 hover:text-[#D4AF37] transition-colors">
+            <Link href="/admin/menu" className="text-xs text-[#2563EB]/70 hover:text-[#2563EB] transition-colors">
               View All
             </Link>
           </div>
@@ -205,7 +205,7 @@ export default function AdminDashboard() {
                       <div>
                         <p className="text-sm font-medium text-white">{dish.name}</p>
                         <div className="flex items-center gap-1.5">
-                          <Star className="w-3 h-3 text-[#D4AF37] fill-[#D4AF37]" />
+                          <Star className="w-3 h-3 text-[#2563EB] fill-[#2563EB]" />
                           <span className="text-xs text-white/40">{dish.rating?.toFixed(1) || '0.0'}</span>
                         </div>
                       </div>
@@ -225,7 +225,7 @@ export default function AdminDashboard() {
       {/* Quick Actions */}
       <motion.div variants={container} initial="hidden" animate="show">
         <div className="flex items-center gap-2 mb-4">
-          <Sparkles className="w-4 h-4 text-[#D4AF37]" />
+          <Sparkles className="w-4 h-4 text-[#2563EB]" />
           <h2 className="text-sm font-semibold text-white/60 uppercase tracking-wider">Quick Actions</h2>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">

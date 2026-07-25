@@ -13,7 +13,7 @@ const statusConfig: Record<string, { label: string; color: string; bg: string }>
   confirmed: { label: 'New', color: 'text-blue-400', bg: 'bg-blue-500/10' },
   preparing: { label: 'Preparing', color: 'text-amber-400', bg: 'bg-amber-500/10' },
   ready: { label: 'Ready', color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
-  served: { label: 'Served', color: 'text-[#D4AF37]', bg: 'bg-[#D4AF37]/10' },
+  served: { label: 'Served', color: 'text-[#2563EB]', bg: 'bg-[#2563EB]/10' },
   cancelled: { label: 'Cancelled', color: 'text-red-400', bg: 'bg-red-500/10' },
 };
 
@@ -58,13 +58,13 @@ export default function WaiterDashboard() {
     { label: 'Active Orders', value: activeOrders.length, icon: Clock, color: 'text-amber-400', bg: 'bg-amber-500/10' },
     { label: 'Ready to Serve', value: readyOrders.length, icon: CheckCircle, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
     { label: "Today's Orders", value: todayOrders.length, icon: TrendingUp, color: 'text-blue-400', bg: 'bg-blue-500/10' },
-    { label: "Today's Revenue", value: `ETB ${todayTotal.toFixed(0)}`, icon: ShoppingBag, color: 'text-[#D4AF37]', bg: 'bg-[#D4AF37]/10' },
+    { label: "Today's Revenue", value: `ETB ${todayTotal.toFixed(0)}`, icon: ShoppingBag, color: 'text-[#2563EB]', bg: 'bg-[#2563EB]/10' },
   ];
 
   if (loading) {
     return (
       <div className="min-h-[80vh] flex items-center justify-center">
-        <div className="w-10 h-10 border-2 border-[#D4AF37]/30 border-t-[#D4AF37] rounded-full animate-spin" />
+        <div className="w-10 h-10 border-2 border-[#2563EB]/30 border-t-[#2563EB] rounded-full animate-spin" />
       </div>
     );
   }
@@ -100,7 +100,7 @@ export default function WaiterDashboard() {
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-base font-semibold text-white">Recent Orders</h2>
         <button onClick={() => router.push('/waiter/orders')}
-          className="text-xs text-[#D4AF37] hover:text-[#E5C158] transition-colors flex items-center gap-1">
+          className="text-xs text-[#2563EB] hover:text-[#60A5FA] transition-colors flex items-center gap-1">
           View All <ArrowRight className="w-3 h-3" />
         </button>
       </div>

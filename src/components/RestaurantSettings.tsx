@@ -44,12 +44,12 @@ export function RestaurantSettings({ settings, onSave }: RestaurantSettingsProps
           <div>
             <label className="block text-xs font-medium text-white/50 mb-1.5 uppercase tracking-wider">Restaurant Name</label>
             <input type="text" value={localSettings.name} onChange={(e) => handleChange('name', e.target.value)}
-              className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all" />
+              className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all" />
           </div>
           <div>
             <label className="block text-xs font-medium text-white/50 mb-1.5 uppercase tracking-wider">Description</label>
             <textarea value={localSettings.description} onChange={(e) => handleChange('description', e.target.value)} rows={4}
-              className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all resize-none" />
+              className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all resize-none" />
           </div>
         </div>
       </div>
@@ -63,7 +63,7 @@ export function RestaurantSettings({ settings, onSave }: RestaurantSettingsProps
             <div className="relative">
               <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
               <input type="text" value={localSettings.address} onChange={(e) => handleChange('address', e.target.value)}
-                className="w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all" />
+                className="w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all" />
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -72,7 +72,7 @@ export function RestaurantSettings({ settings, onSave }: RestaurantSettingsProps
               <div className="relative">
                 <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
                 <input type="tel" value={localSettings.phone} onChange={(e) => handleChange('phone', e.target.value)}
-                  className="w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all" />
+                  className="w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all" />
               </div>
             </div>
             <div>
@@ -80,7 +80,7 @@ export function RestaurantSettings({ settings, onSave }: RestaurantSettingsProps
               <div className="relative">
                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
                 <input type="email" value={localSettings.email} onChange={(e) => handleChange('email', e.target.value)}
-                  className="w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all" />
+                  className="w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all" />
               </div>
             </div>
           </div>
@@ -89,7 +89,7 @@ export function RestaurantSettings({ settings, onSave }: RestaurantSettingsProps
             <div className="relative">
               <Globe className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
               <input type="url" value={localSettings.website} onChange={(e) => handleChange('website', e.target.value)}
-                className="w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all" />
+                className="w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all" />
             </div>
           </div>
         </div>
@@ -105,7 +105,7 @@ export function RestaurantSettings({ settings, onSave }: RestaurantSettingsProps
               <Clock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
               <input type="text" value={localSettings.openingHours.weekdays}
                 onChange={(e) => handleNestedChange('openingHours', 'weekdays', e.target.value)}
-                className="w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all" />
+                className="w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all" />
             </div>
           </div>
           <div>
@@ -114,7 +114,7 @@ export function RestaurantSettings({ settings, onSave }: RestaurantSettingsProps
               <Clock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
               <input type="text" value={localSettings.openingHours.weekends}
                 onChange={(e) => handleNestedChange('openingHours', 'weekends', e.target.value)}
-                className="w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all" />
+                className="w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all" />
             </div>
           </div>
         </div>
@@ -129,7 +129,7 @@ export function RestaurantSettings({ settings, onSave }: RestaurantSettingsProps
             <div className="relative">
               <Camera className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
               <input type="url" value={(localSettings as any).instagram || ''} onChange={(e) => handleChange('instagram', e.target.value)}
-                className="w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all"
+                className="w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all"
                 placeholder="https://instagram.com/yourpage" />
             </div>
           </div>
@@ -138,7 +138,7 @@ export function RestaurantSettings({ settings, onSave }: RestaurantSettingsProps
             <div className="relative">
               <MessageCircle className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
               <input type="url" value={(localSettings as any).telegram || ''} onChange={(e) => handleChange('telegram', e.target.value)}
-                className="w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all"
+                className="w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all"
                 placeholder="https://t.me/yourpage" />
             </div>
           </div>
@@ -148,7 +148,7 @@ export function RestaurantSettings({ settings, onSave }: RestaurantSettingsProps
               <div className="relative">
                 <Play className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
                 <input type="url" value={(localSettings as any).tiktok || ''} onChange={(e) => handleChange('tiktok', e.target.value)}
-                  className="w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all"
+                  className="w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all"
                   placeholder="https://tiktok.com/@yourpage" />
               </div>
             </div>
@@ -157,7 +157,7 @@ export function RestaurantSettings({ settings, onSave }: RestaurantSettingsProps
               <div className="relative">
                 <Globe className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
                 <input type="url" value={(localSettings as any).facebook || ''} onChange={(e) => handleChange('facebook', e.target.value)}
-                  className="w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all"
+                  className="w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all"
                   placeholder="https://facebook.com/yourpage" />
               </div>
             </div>
@@ -166,7 +166,7 @@ export function RestaurantSettings({ settings, onSave }: RestaurantSettingsProps
               <div className="relative">
                 <Play className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
                 <input type="url" value={(localSettings as any).youtube || ''} onChange={(e) => handleChange('youtube', e.target.value)}
-                  className="w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all"
+                  className="w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all"
                   placeholder="https://youtube.com/@yourpage" />
               </div>
             </div>
@@ -183,7 +183,7 @@ export function RestaurantSettings({ settings, onSave }: RestaurantSettingsProps
             <div className="relative">
               <ImageIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
               <input type="url" value={localSettings.logo} onChange={(e) => handleChange('logo', e.target.value)}
-                className="w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all" />
+                className="w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all" />
             </div>
           </div>
           <div>
@@ -191,7 +191,7 @@ export function RestaurantSettings({ settings, onSave }: RestaurantSettingsProps
             <div className="relative">
               <ImageIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
               <input type="url" value={localSettings.coverImage} onChange={(e) => handleChange('coverImage', e.target.value)}
-                className="w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all" />
+                className="w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all" />
             </div>
           </div>
         </div>
@@ -201,7 +201,7 @@ export function RestaurantSettings({ settings, onSave }: RestaurantSettingsProps
       <div className="flex justify-end">
         <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
           onClick={() => onSave(localSettings)}
-          className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#E5C158] text-black font-semibold text-sm hover:brightness-110 transition-all flex items-center gap-2 shadow-lg shadow-[#D4AF37]/20">
+          className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#60A5FA] text-black font-semibold text-sm hover:brightness-110 transition-all flex items-center gap-2 shadow-lg shadow-[#2563EB]/20">
           <Save className="w-4 h-4" /> Save Changes
         </motion.button>
       </div>

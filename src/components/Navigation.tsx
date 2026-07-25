@@ -30,7 +30,7 @@ export function Navigation({ role = 'client' }: NavigationProps) {
       ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-lg border-b border-[#D4AF37]/20">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-lg border-b border-[#2563EB]/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -39,9 +39,9 @@ export function Navigation({ role = 'client' }: NavigationProps) {
             animate={{ opacity: 1, x: 0 }}
             className="flex items-center space-x-3"
           >
-            <img src="/PNG-01.png" alt="Logo" className="h-10 w-auto" />
+            <img src="/dolphin-logo.png" alt="Logo" className="h-10 w-auto" />
             <span className="text-xl font-bold text-black dark:text-white">
-              {role === 'client' ? 'Bright Cafe and Restaurant' : 'ADMIN PANEL'}
+              {role === 'client' ? 'Dolphin Cafe and Restaurant' : 'ADMIN PANEL'}
             </span>
           </motion.div>
 
@@ -54,7 +54,7 @@ export function Navigation({ role = 'client' }: NavigationProps) {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="text-black dark:text-white hover:text-[#D4AF37] transition-colors duration-200 font-medium"
+                className="text-black dark:text-white hover:text-[#2563EB] transition-colors duration-200 font-medium"
               >
                 {item.name}
               </motion.a>
@@ -67,10 +67,10 @@ export function Navigation({ role = 'client' }: NavigationProps) {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="relative p-2 text-black dark:text-white hover:text-[#D4AF37] transition-colors"
+                className="relative p-2 text-black dark:text-white hover:text-[#2563EB] transition-colors"
               >
                 <ShoppingCart className="w-6 h-6" />
-                <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#D4AF37] text-white text-xs rounded-full flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#2563EB] text-white text-xs rounded-full flex items-center justify-center">
                   0
                 </span>
               </motion.button>
@@ -80,7 +80,7 @@ export function Navigation({ role = 'client' }: NavigationProps) {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="p-2 text-black dark:text-white hover:text-[#D4AF37] transition-colors"
+                className="p-2 text-black dark:text-white hover:text-[#2563EB] transition-colors"
               >
                 <Settings className="w-6 h-6" />
               </motion.button>
@@ -105,14 +105,14 @@ export function Navigation({ role = 'client' }: NavigationProps) {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden py-4 border-t border-[#D4AF37]/20"
+            className="md:hidden py-4 border-t border-[#2563EB]/20"
           >
             <div className="flex flex-col space-y-4">
               {navItems.map((item) => (
                 <a
                   key={item.name}
                   href={item.href}
-                  className="text-black dark:text-white hover:text-[#D4AF37] transition-colors font-medium py-2"
+                  className="text-black dark:text-white hover:text-[#2563EB] transition-colors font-medium py-2"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}

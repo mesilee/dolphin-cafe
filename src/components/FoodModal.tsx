@@ -90,7 +90,7 @@ export function FoodModal({ item, isOpen, onClose, onAddToCart }: FoodModalProps
                   ) : item.image?.match(/^\/api\//) ? (
                     <img src={item.image} alt={item.name} className="w-full h-64 object-cover" loading="eager" decoding="async" />
                   ) : (
-                    <div className="flex w-full h-64 items-center justify-center bg-gradient-to-br from-[#D4AF37]/20 to-[#D4AF37]/5 text-6xl">
+                    <div className="flex w-full h-64 items-center justify-center bg-gradient-to-br from-[#2563EB]/20 to-[#2563EB]/5 text-6xl">
                       {item.image}
                     </div>
                   )}
@@ -114,7 +114,7 @@ export function FoodModal({ item, isOpen, onClose, onAddToCart }: FoodModalProps
                               key={i}
                               className={`w-4 h-4 ${
                                 i < Math.floor(item.rating)
-                                  ? 'text-[#D4AF37] fill-[#D4AF37]'
+                                  ? 'text-[#2563EB] fill-[#2563EB]'
                                   : 'text-black/20 dark:text-white/20'
                               }`}
                             />
@@ -128,9 +128,9 @@ export function FoodModal({ item, isOpen, onClose, onAddToCart }: FoodModalProps
                     <motion.button
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
-                      className="p-2 border-2 border-[#D4AF37]/30 rounded-full"
+                      className="p-2 border-2 border-[#2563EB]/30 rounded-full"
                     >
-                      <Heart className="w-6 h-6 text-[#D4AF37]" />
+                      <Heart className="w-6 h-6 text-[#2563EB]" />
                     </motion.button>
                   </div>
 
@@ -152,15 +152,15 @@ export function FoodModal({ item, isOpen, onClose, onAddToCart }: FoodModalProps
                           onClick={() => toggleCustomization(custom.id)}
                           className={`w-full p-4 border-2 rounded-xl flex items-center justify-between transition-all ${
                             selectedCustomizations.includes(custom.id)
-                              ? 'border-[#D4AF37] bg-[#D4AF37]/10'
-                              : 'border-[#D4AF37]/20 bg-transparent'
+                              ? 'border-[#2563EB] bg-[#2563EB]/10'
+                              : 'border-[#2563EB]/20 bg-transparent'
                           }`}
                         >
                           <span className="text-black dark:text-white font-medium">
                             {custom.name}
                           </span>
                           {custom.price > 0 && (
-                            <span className="text-[#D4AF37] font-bold">
+                            <span className="text-[#2563EB] font-bold">
                               +ETB {custom.price}
                             </span>
                           )}
@@ -179,7 +179,7 @@ export function FoodModal({ item, isOpen, onClose, onAddToCart }: FoodModalProps
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                        className="w-12 h-12 border-2 border-[#D4AF37]/30 rounded-full flex items-center justify-center"
+                        className="w-12 h-12 border-2 border-[#2563EB]/30 rounded-full flex items-center justify-center"
                       >
                         <Minus className="w-5 h-5 text-black dark:text-white" />
                       </motion.button>
@@ -190,7 +190,7 @@ export function FoodModal({ item, isOpen, onClose, onAddToCart }: FoodModalProps
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         onClick={() => setQuantity(quantity + 1)}
-                        className="w-12 h-12 border-2 border-[#D4AF37]/30 rounded-full flex items-center justify-center"
+                        className="w-12 h-12 border-2 border-[#2563EB]/30 rounded-full flex items-center justify-center"
                       >
                         <Plus className="w-5 h-5 text-black dark:text-white" />
                       </motion.button>
@@ -198,10 +198,10 @@ export function FoodModal({ item, isOpen, onClose, onAddToCart }: FoodModalProps
                   </div>
 
                   {/* Price and Add to Cart */}
-                  <div className="flex items-center justify-between pt-6 border-t border-[#D4AF37]/20">
+                  <div className="flex items-center justify-between pt-6 border-t border-[#2563EB]/20">
                     <div>
                       <p className="text-sm text-black/60 dark:text-white/60">Total Price</p>
-                      <p className="text-3xl font-bold text-[#D4AF37]">ETB {totalPrice}</p>
+                      <p className="text-3xl font-bold text-[#2563EB]">ETB {totalPrice}</p>
                     </div>
                     <motion.button
                       whileHover={item.available ? { scale: 1.05 } : {}}
@@ -210,7 +210,7 @@ export function FoodModal({ item, isOpen, onClose, onAddToCart }: FoodModalProps
                       disabled={!item.available}
                       className={`px-8 py-4 rounded-full font-bold text-lg transition-colors ${
                         item.available
-                          ? 'bg-[#D4AF37] text-white hover:bg-[#B8962F]'
+                          ? 'bg-[#2563EB] text-white hover:bg-[#1D4ED8]'
                           : 'bg-white/10 text-white/30 cursor-not-allowed'
                       }`}
                     >

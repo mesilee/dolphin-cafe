@@ -85,7 +85,7 @@ export const FALLBACK_MENU = [
   { id: 37, name: 'Hot Chocolate', category: 'Hot Drinks', price: 156, description: '', image: IMG.hotchoc },
 
   // Juice & Shakes
-  { id: 38, name: 'Bright Special Juice', category: 'Juice & Shakes', price: 347, description: '', image: IMG.juice },
+  { id: 38, name: 'Dolphin Special Juice', category: 'Juice & Shakes', price: 347, description: '', image: IMG.juice },
   { id: 39, name: 'Banana Shake', category: 'Juice & Shakes', price: 173.90, description: '', image: IMG.shake },
   { id: 40, name: 'Mixed Juice', category: 'Juice & Shakes', price: 217, description: '', image: IMG.smoothie },
   { id: 41, name: 'Papaya', category: 'Juice & Shakes', price: 217, description: '', image: IMG.juice },
@@ -98,7 +98,7 @@ export const FALLBACK_MENU = [
   { id: 48, name: 'Strawberry Mix', category: 'Juice & Shakes', price: 260, description: '', image: IMG.juice },
 
   // Breakfast & Light Meals
-  { id: 49, name: 'Bright Special Ful', category: 'Breakfast & Light Meals', price: 434, description: '', image: IMG.breakfast },
+  { id: 49, name: 'Dolphin Special Ful', category: 'Breakfast & Light Meals', price: 434, description: '', image: IMG.breakfast },
   { id: 50, name: 'Special Ful', category: 'Breakfast & Light Meals', price: 321.73, description: '', image: IMG.breakfast },
   { id: 51, name: 'Normal Ful', category: 'Breakfast & Light Meals', price: 304.34, description: '', image: IMG.breakfast },
   { id: 52, name: 'Yogurt', category: 'Breakfast & Light Meals', price: 130.14, description: '', image: IMG.yogurt },
@@ -121,13 +121,13 @@ export const FALLBACK_MENU = [
   { id: 69, name: 'Special Fetira', category: 'Breakfast & Light Meals', price: 304.34, description: '', image: IMG.pancake },
 
   // Salad
-  { id: 70, name: 'Bright Special Salad', category: 'Salad', price: 573, description: '', image: IMG.salad },
+  { id: 70, name: 'Dolphin Special Salad', category: 'Salad', price: 573, description: '', image: IMG.salad },
   { id: 71, name: 'Mixed Salad', category: 'Salad', price: 304.34, description: '', image: IMG.salad },
   { id: 72, name: 'Tuna Salad (Special)', category: 'Salad', price: 521.73, description: '', image: IMG.salad },
   { id: 73, name: 'Chicken Salad', category: 'Salad', price: 512.17, description: '', image: IMG.salad },
 
   // Pizza
-  { id: 74, name: 'Bright Special Pizza 40x30cm', category: 'Pizza', price: 869, description: '', image: IMG.pizza },
+  { id: 74, name: 'Dolphin Special Pizza 40x30cm', category: 'Pizza', price: 869, description: '', image: IMG.pizza },
   { id: 75, name: 'Special Pizza', category: 'Pizza', price: 739.13, description: '', image: IMG.pizza },
   { id: 76, name: 'Vegetable with Tuna', category: 'Pizza', price: 686.95, description: '', image: IMG.pizza },
   { id: 77, name: 'Margarita Pizza', category: 'Pizza', price: 608.69, description: '', image: IMG.pizza },
@@ -154,8 +154,8 @@ export const FALLBACK_MENU = [
   { id: 93, name: 'Stir Fried Fish', category: 'Fish', price: 547.82, description: '', image: IMG.fish },
 
   // Burger & Sandwich
-  { id: 94, name: 'Bright Special Double Beef Burger', category: 'Burger & Sandwich', price: 608.69, description: '', image: IMG.burger },
-  { id: 95, name: 'Bright Special Burger', category: 'Burger & Sandwich', price: 565.21, description: '', image: IMG.burger },
+  { id: 94, name: 'Dolphin Special Double Beef Burger', category: 'Burger & Sandwich', price: 608.69, description: '', image: IMG.burger },
+  { id: 95, name: 'Dolphin Special Burger', category: 'Burger & Sandwich', price: 565.21, description: '', image: IMG.burger },
   { id: 96, name: 'Beef Burger', category: 'Burger & Sandwich', price: 495.65, description: '', image: IMG.burger },
   { id: 97, name: 'Chicken Burger', category: 'Burger & Sandwich', price: 591.35, description: '', image: IMG.burger },
   { id: 98, name: 'Cheese Burger', category: 'Burger & Sandwich', price: 504.34, description: '', image: IMG.burger },

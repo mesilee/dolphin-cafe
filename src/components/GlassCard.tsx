@@ -17,8 +17,8 @@ export function GlassCard({ children, className, hover = true, onClick }: GlassC
       whileTap={onClick ? { scale: 0.98 } : {}}
       onClick={onClick}
       className={cn(
-        'bg-white/60 dark:bg-black/60 backdrop-blur-xl border border-[#D4AF37]/20 rounded-2xl shadow-lg',
-        'hover:shadow-xl hover:border-[#D4AF37]/40 transition-all duration-300',
+        'bg-white/60 dark:bg-black/60 backdrop-blur-xl border border-[#2563EB]/20 rounded-2xl shadow-lg',
+        'hover:shadow-xl hover:border-[#2563EB]/40 transition-all duration-300',
         className
       )}
     >

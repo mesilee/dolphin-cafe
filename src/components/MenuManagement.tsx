@@ -110,14 +110,14 @@ export function MenuManagement({ items, onAdd, onEdit, onDelete }: MenuManagemen
       {/* Toolbar */}
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1 group">
-          <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#D4AF37]/10 to-transparent opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none" />
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#D4AF37] transition-colors z-10" />
+          <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#2563EB]/10 to-transparent opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#2563EB] transition-colors z-10" />
           <input
             type="text"
             placeholder="Search menu items..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="relative w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 focus:bg-white/[0.06] transition-all"
+            className="relative w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 focus:bg-white/[0.06] transition-all"
           />
         </div>
         <div className="flex gap-2">
@@ -125,7 +125,7 @@ export function MenuManagement({ items, onAdd, onEdit, onDelete }: MenuManagemen
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="appearance-none pl-4 pr-10 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm focus:outline-none focus:border-[#D4AF37]/50 transition-all cursor-pointer"
+              className="appearance-none pl-4 pr-10 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm focus:outline-none focus:border-[#2563EB]/50 transition-all cursor-pointer"
             >
               {categories.map(c => (
                 <option key={c} value={c} className="bg-[#0a0a12] text-white">{c === 'all' ? 'All Categories' : c}</option>
@@ -134,17 +134,17 @@ export function MenuManagement({ items, onAdd, onEdit, onDelete }: MenuManagemen
             <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 pointer-events-none" />
           </div>
           <div className="flex bg-white/[0.04] rounded-xl border border-white/[0.08] p-1">
-            <button onClick={() => setViewMode('grid')} className={cn('p-2 rounded-lg transition-all', viewMode === 'grid' ? 'bg-[#D4AF37]/20 text-[#D4AF37]' : 'text-white/30 hover:text-white/60')}>
+            <button onClick={() => setViewMode('grid')} className={cn('p-2 rounded-lg transition-all', viewMode === 'grid' ? 'bg-[#2563EB]/20 text-[#2563EB]' : 'text-white/30 hover:text-white/60')}>
               <Grid3X3 className="w-4 h-4" />
             </button>
-            <button onClick={() => setViewMode('list')} className={cn('p-2 rounded-lg transition-all', viewMode === 'list' ? 'bg-[#D4AF37]/20 text-[#D4AF37]' : 'text-white/30 hover:text-white/60')}>
+            <button onClick={() => setViewMode('list')} className={cn('p-2 rounded-lg transition-all', viewMode === 'list' ? 'bg-[#2563EB]/20 text-[#2563EB]' : 'text-white/30 hover:text-white/60')}>
               <List className="w-4 h-4" />
             </button>
           </div>
           <motion.button
             whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
             onClick={() => { setEditingItem(null); setUploadedImage(''); setIsModalOpen(true); }}
-            className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#E5C158] text-black font-semibold text-sm hover:brightness-110 transition-all flex items-center gap-2 shadow-lg shadow-[#D4AF37]/20"
+            className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#60A5FA] text-black font-semibold text-sm hover:brightness-110 transition-all flex items-center gap-2 shadow-lg shadow-[#2563EB]/20"
           >
             <Plus className="w-4 h-4" />
             New Item
@@ -184,7 +184,7 @@ export function MenuManagement({ items, onAdd, onEdit, onDelete }: MenuManagemen
                   {/* Actions overlay */}
                   <div className="absolute top-3 right-3 flex gap-1.5 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                     <button onClick={() => { setEditingItem(item); setUploadedImage(''); setIsModalOpen(true); }}
-                      className="w-8 h-8 rounded-lg bg-black/60 backdrop-blur-sm flex items-center justify-center hover:bg-[#D4AF37]/30 transition-all border border-white/[0.08]">
+                      className="w-8 h-8 rounded-lg bg-black/60 backdrop-blur-sm flex items-center justify-center hover:bg-[#2563EB]/30 transition-all border border-white/[0.08]">
                       <Edit className="w-3.5 h-3.5 text-white" />
                     </button>
                     <button onClick={() => onDelete(item.id)}
@@ -203,7 +203,7 @@ export function MenuManagement({ items, onAdd, onEdit, onDelete }: MenuManagemen
                 <div className="p-4">
                   <div className="flex items-start justify-between gap-2 mb-1">
                     <h3 className="text-sm font-semibold text-white truncate">{item.name}</h3>
-                    <span className="text-sm font-bold text-[#D4AF37] shrink-0">ETB {item.price}</span>
+                    <span className="text-sm font-bold text-[#2563EB] shrink-0">ETB {item.price}</span>
                   </div>
                   {item.description && (
                     <p className="text-xs text-white/40 line-clamp-1">{item.description}</p>
@@ -258,7 +258,7 @@ export function MenuManagement({ items, onAdd, onEdit, onDelete }: MenuManagemen
                   <span className="text-xs text-white/50">{item.category}</span>
                 </div>
                 <div className="col-span-2">
-                  <span className="text-sm font-semibold text-[#D4AF37]">ETB {item.price}</span>
+                  <span className="text-sm font-semibold text-[#2563EB]">ETB {item.price}</span>
                 </div>
                 <div className="col-span-2">
                   <span className={cn(
@@ -270,7 +270,7 @@ export function MenuManagement({ items, onAdd, onEdit, onDelete }: MenuManagemen
                 </div>
                 <div className="col-span-2 flex justify-end gap-1">
                   <button onClick={() => { setEditingItem(item); setUploadedImage(''); setIsModalOpen(true); }}
-                    className="p-1.5 rounded-lg hover:bg-white/[0.06] text-white/40 hover:text-[#D4AF37] transition-all">
+                    className="p-1.5 rounded-lg hover:bg-white/[0.06] text-white/40 hover:text-[#2563EB] transition-all">
                     <Edit className="w-3.5 h-3.5" />
                   </button>
                   <button onClick={() => onDelete(item.id)}
@@ -344,26 +344,26 @@ export function MenuManagement({ items, onAdd, onEdit, onDelete }: MenuManagemen
                   <div>
                     <label className="block text-xs font-medium text-white/50 mb-1.5 uppercase tracking-wider">Item Name</label>
                     <input type="text" name="name" defaultValue={editingItem?.name}
-                      className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all"
+                      className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all"
                       placeholder="Enter item name" required />
                   </div>
                   <div>
                     <label className="block text-xs font-medium text-white/50 mb-1.5 uppercase tracking-wider">Description</label>
                     <textarea name="description" defaultValue={editingItem?.description} rows={3}
-                      className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all resize-none"
+                      className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all resize-none"
                       placeholder="Describe the dish..." />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-xs font-medium text-white/50 mb-1.5 uppercase tracking-wider">Price (ETB)</label>
                       <input type="number" name="price" step="0.01" defaultValue={editingItem?.price}
-                        className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all"
+                        className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all"
                         placeholder="0.00" required />
                     </div>
                     <div>
                       <label className="block text-xs font-medium text-white/50 mb-1.5 uppercase tracking-wider">Category</label>
                       <input type="text" name="category" list="category-list" defaultValue={editingItem?.category}
-                        className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all"
+                        className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all"
                         placeholder="Enter category" required />
                       <datalist id="category-list">
                         {Array.from(new Set(items.map(i => i.category))).map(c => <option key={c} value={c} />)}
@@ -373,12 +373,12 @@ export function MenuManagement({ items, onAdd, onEdit, onDelete }: MenuManagemen
                   <div>
                     <label className="block text-xs font-medium text-white/50 mb-1.5 uppercase tracking-wider">Image URL <span className="font-normal normal-case text-white/20">or upload</span></label>
                     <input type="text" name="image" inputMode="url" defaultValue={editingItem?.image?.match(/^(https?|data):/) ? editingItem.image : ''}
-                      className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all"
+                      className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all"
                       placeholder="https://images.unsplash.com/photo-..." />
                   </div>
                   <div>
                     <div onClick={() => fileInputRef.current?.click()}
-                      className="relative flex flex-col items-center justify-center w-full h-28 border-2 border-dashed border-white/[0.08] rounded-xl bg-white/[0.02] hover:bg-white/[0.04] hover:border-[#D4AF37]/40 transition-all cursor-pointer group"
+                      className="relative flex flex-col items-center justify-center w-full h-28 border-2 border-dashed border-white/[0.08] rounded-xl bg-white/[0.02] hover:bg-white/[0.04] hover:border-[#2563EB]/40 transition-all cursor-pointer group"
                     >
                       <input type="file" ref={fileInputRef} accept="image/*" onChange={handleFileUpload} className="hidden" />
                       {uploadedImage ? (
@@ -389,7 +389,7 @@ export function MenuManagement({ items, onAdd, onEdit, onDelete }: MenuManagemen
                         </div>
                       ) : (
                         <div className="flex flex-col items-center gap-1.5">
-                          <Upload className="w-6 h-6 text-white/20 group-hover:text-[#D4AF37]/60 transition-colors" />
+                          <Upload className="w-6 h-6 text-white/20 group-hover:text-[#2563EB]/60 transition-colors" />
                           <span className="text-xs text-white/30">Click to upload image</span>
                         </div>
                       )}
@@ -397,7 +397,7 @@ export function MenuManagement({ items, onAdd, onEdit, onDelete }: MenuManagemen
                   </div>
                   <label className="flex items-center gap-3 cursor-pointer">
                     <input type="checkbox" name="available" id="available" defaultChecked={editingItem?.available ?? true}
-                      className="w-4 h-4 rounded border-white/[0.08] bg-white/[0.04] text-[#D4AF37] focus:ring-[#D4AF37]/50" />
+                      className="w-4 h-4 rounded border-white/[0.08] bg-white/[0.04] text-[#2563EB] focus:ring-[#2563EB]/50" />
                     <span className="text-sm text-white/70">Available for ordering</span>
                   </label>
                   <div className="flex gap-3 pt-2">
@@ -406,7 +406,7 @@ export function MenuManagement({ items, onAdd, onEdit, onDelete }: MenuManagemen
                       Cancel
                     </button>
                     <button type="submit"
-                      className="flex-1 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#E5C158] text-black font-semibold text-sm hover:brightness-110 transition-all">
+                      className="flex-1 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#60A5FA] text-black font-semibold text-sm hover:brightness-110 transition-all">
                       {editingItem ? 'Update' : 'Add Item'}
                     </button>
                   </div>

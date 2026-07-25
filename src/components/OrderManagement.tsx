@@ -21,7 +21,7 @@ const statusConfig: Record<string, { label: string; color: string; bg: string; d
   confirmed: { label: 'Confirmed', color: 'text-blue-400', bg: 'bg-blue-500/10', dot: 'bg-blue-400', next: 'preparing', nextLabel: 'Start Preparing', icon: CheckCircle },
   preparing: { label: 'Preparing', color: 'text-amber-400', bg: 'bg-amber-500/10', dot: 'bg-amber-400', next: 'ready', nextLabel: 'Mark Ready', icon: ChefHat },
   ready: { label: 'Ready', color: 'text-emerald-400', bg: 'bg-emerald-500/10', dot: 'bg-emerald-400', next: 'served', nextLabel: 'Mark Served', icon: Clock },
-  served: { label: 'Served', color: 'text-[#D4AF37]', bg: 'bg-[#D4AF37]/10', dot: 'bg-[#D4AF37]', icon: CheckCircle },
+  served: { label: 'Served', color: 'text-[#2563EB]', bg: 'bg-[#2563EB]/10', dot: 'bg-[#2563EB]', icon: CheckCircle },
   cancelled: { label: 'Cancelled', color: 'text-red-400', bg: 'bg-red-500/10', dot: 'bg-red-400', icon: XCircle },
 };
 
@@ -62,14 +62,14 @@ export function OrderManagement({ orders, onUpdateStatus, onViewDetails }: Order
               className={cn(
                 'relative px-3.5 py-2 rounded-xl text-xs font-medium transition-all border',
                 active
-                  ? 'border-[#D4AF37]/40 bg-gradient-to-r from-[#D4AF37]/15 to-transparent text-[#D4AF37]'
+                  ? 'border-[#2563EB]/40 bg-gradient-to-r from-[#2563EB]/15 to-transparent text-[#2563EB]'
                   : 'border-white/[0.06] text-white/40 hover:text-white/60 hover:bg-white/[0.04]'
               )}
             >
               <div className="flex items-center gap-2">
-                <span className={cn('w-1.5 h-1.5 rounded-full', active ? 'bg-[#D4AF37]' : cfg.dot)} />
+                <span className={cn('w-1.5 h-1.5 rounded-full', active ? 'bg-[#2563EB]' : cfg.dot)} />
                 {cfg.label}
-                <span className={cn('px-1.5 py-0.5 rounded text-[10px]', active ? 'bg-[#D4AF37]/20' : 'bg-white/[0.06]')}>{statusCounts[status] || 0}</span>
+                <span className={cn('px-1.5 py-0.5 rounded text-[10px]', active ? 'bg-[#2563EB]/20' : 'bg-white/[0.06]')}>{statusCounts[status] || 0}</span>
               </div>
             </button>
           );
@@ -78,10 +78,10 @@ export function OrderManagement({ orders, onUpdateStatus, onViewDetails }: Order
 
       {/* Search */}
       <div className="relative group">
-        <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#D4AF37]/10 to-transparent opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none" />
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#D4AF37] transition-colors z-10" />
+        <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#2563EB]/10 to-transparent opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none" />
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#2563EB] transition-colors z-10" />
         <input type="text" placeholder="Search by customer or order ID..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
-          className="relative w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all" />
+          className="relative w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all" />
       </div>
 
       {/* Order cards */}
@@ -123,7 +123,7 @@ export function OrderManagement({ orders, onUpdateStatus, onViewDetails }: Order
                     </div>
                     <div className="flex items-center justify-between text-xs">
                       <span className="text-white/30">#{order.id.slice(-6)}</span>
-                      <span className="text-sm font-bold text-[#D4AF37]">ETB {order.total}</span>
+                      <span className="text-sm font-bold text-[#2563EB]">ETB {order.total}</span>
                     </div>
                   </div>
                   {/* Items */}
@@ -136,7 +136,7 @@ export function OrderManagement({ orders, onUpdateStatus, onViewDetails }: Order
                         </div>
                       ))}
                       {order.items.length > 4 && (
-                        <p className="text-[11px] text-[#D4AF37]/60">+{order.items.length - 4} more items</p>
+                        <p className="text-[11px] text-[#2563EB]/60">+{order.items.length - 4} more items</p>
                       )}
                     </div>
                     {order.notes && (
@@ -153,7 +153,7 @@ export function OrderManagement({ orders, onUpdateStatus, onViewDetails }: Order
                     </button>
                     {cfg.next && (
                       <button onClick={() => onUpdateStatus(order.id, cfg.next!)}
-                        className="flex-1 px-3 py-2 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#E5C158] text-black text-xs font-semibold hover:brightness-110 transition-all flex items-center justify-center gap-1.5">
+                        className="flex-1 px-3 py-2 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#60A5FA] text-black text-xs font-semibold hover:brightness-110 transition-all flex items-center justify-center gap-1.5">
                         {cfg.nextLabel} <ArrowRight className="w-3.5 h-3.5" />
                       </button>
                     )}

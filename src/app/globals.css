@@ -5,14 +5,13 @@
 :root {
   --background: #ffffff;
   --foreground: #000000;
-  --gold: #D4AF37;
-  --gold-light: #E5C158;
-  --gold-dark: #B8962F;
-  --gold-glow: rgba(212, 175, 55, 0.25);
+  --gold: #2563EB;
+  --gold-light: #60A5FA;
+  --gold-dark: #1D4ED8;
+  --gold-glow: rgba(37, 99, 235, 0.25);
   --sidebar-bg: #0a0a0f;
   --sidebar-width: 280px;
   --font-geist-sans: 'Geist Sans', system-ui, -apple-system, sans-serif;
-  --font-geist-mono: 'Geist Mono', ui-monospace, monospace;
   --font-playfair: 'Playfair Display', Georgia, 'Times New Roman', serif;
   --font-inter: 'Inter', system-ui, -apple-system, sans-serif;
 }
@@ -27,7 +26,7 @@
   --color-gold-glow: var(--gold-glow);
 
   --font-sans: var(--font-inter);
-  --font-mono: var(--font-geist-mono);
+  --font-mono: ui-monospace, monospace;
   --font-display: var(--font-playfair);
   --font-serif: var(--font-playfair);
 
@@ -200,9 +199,6 @@ small {
 }
 
 /* ── Scrollbar ── */
-* {
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
 
 ::-webkit-scrollbar {
   width: 6px;
@@ -214,12 +210,12 @@ small {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--gold);
+  background: #1E40AF;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--gold-light);
+  background: #3B82F6;
 }
 
 /* ── Animations ── */
@@ -229,14 +225,14 @@ small {
 }
 
 .shimmer {
-  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.08), transparent);
+  background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.08), transparent);
   background-size: 200% 100%;
   animation: shimmer 2s infinite;
 }
 
 @keyframes pulse-glow {
   0%, 100% { box-shadow: 0 0 8px var(--gold-glow); }
-  50% { box-shadow: 0 0 20px var(--gold-glow), 0 0 40px rgba(212, 175, 55, 0.1); }
+  50% { box-shadow: 0 0 20px var(--gold-glow), 0 0 40px rgba(37, 99, 235, 0.1); }
 }
 
 .glow-card {
@@ -290,7 +286,7 @@ small {
 
 /* ── Luxury Selection Color ── */
 ::selection {
-  background: rgba(212, 175, 55, 0.3);
+  background: rgba(37, 99, 235, 0.3);
   color: #ffffff;
 }
 

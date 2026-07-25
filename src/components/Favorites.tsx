@@ -24,7 +24,7 @@ export function Favorites({ items, onRemove, onAddToCart }: FavoritesProps) {
   if (items.length === 0) {
     return (
       <GlassCard className="p-12 text-center">
-        <Heart className="w-16 h-16 text-[#D4AF37]/30 mx-auto mb-4" />
+        <Heart className="w-16 h-16 text-[#2563EB]/30 mx-auto mb-4" />
         <h3 className="text-xl font-bold text-black dark:text-white mb-2">
           No favorites yet
         </h3>
@@ -46,7 +46,7 @@ export function Favorites({ items, onRemove, onAddToCart }: FavoritesProps) {
         >
           <GlassCard className="overflow-hidden h-full">
             <div className="relative">
-              <div className="h-48 bg-gradient-to-br from-[#D4AF37]/20 to-[#D4AF37]/5 flex items-center justify-center overflow-hidden">
+              <div className="h-48 bg-gradient-to-br from-[#2563EB]/20 to-[#2563EB]/5 flex items-center justify-center overflow-hidden">
                 {item.image?.match(/^(https?:|data:|\/api\/)/) ? (
                   <img src={item.image} alt={item.name} className="w-full h-full object-cover" loading="lazy" decoding="async" />
                 ) : (
@@ -69,7 +69,7 @@ export function Favorites({ items, onRemove, onAddToCart }: FavoritesProps) {
                   {item.name}
                 </h3>
                 <div className="flex items-center space-x-1">
-                  <Star className="w-4 h-4 text-[#D4AF37] fill-[#D4AF37]" />
+                  <Star className="w-4 h-4 text-[#2563EB] fill-[#2563EB]" />
                   <span className="text-sm font-medium text-black dark:text-white">
                     {item.rating}
                   </span>
@@ -81,14 +81,14 @@ export function Favorites({ items, onRemove, onAddToCart }: FavoritesProps) {
               </p>
               
               <div className="flex items-center justify-between">
-                <span className="text-2xl font-bold text-[#D4AF37]">
+                <span className="text-2xl font-bold text-[#2563EB]">
                   ETB {item.price}
                 </span>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => onAddToCart(item)}
-                  className="px-6 py-2 bg-[#D4AF37] text-white rounded-full font-medium hover:bg-[#B8962F] transition-colors"
+                  className="px-6 py-2 bg-[#2563EB] text-white rounded-full font-medium hover:bg-[#1D4ED8] transition-colors"
                 >
                   Add to Cart
                 </motion.button>

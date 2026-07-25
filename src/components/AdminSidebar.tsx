@@ -5,10 +5,11 @@ import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
   LayoutDashboard, UtensilsCrossed, ShoppingBag,
-  Table2, LogOut, ChefHat,
+  Table2, LogOut,
   Menu, X, ChevronRight, Bell
 } from 'lucide-react';
 import { useState } from 'react';
+import Image from 'next/image';
 import { logoutAdmin } from '@/lib/admin-auth';
 import { cn } from '@/lib/utils';
 
@@ -61,16 +62,14 @@ export function AdminSidebar({ children }: { children: React.ReactNode }) {
           'flex items-center h-16 border-b border-white/[0.06]',
           collapsed ? 'justify-center px-2' : 'px-5 gap-3'
         )}>
-          <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-[#D4AF37] to-[#B8962F] flex items-center justify-center shrink-0">
-            <ChefHat className="w-5 h-5 text-white" />
-          </div>
+          <Image src="/dolphin-logo.png" alt="Dolphin" width={36} height={36} className="shrink-0" />
           {!collapsed && (
             <motion.span
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               className="font-bold text-white text-lg tracking-tight"
             >
-              Panel
+              Dolphin Cafe
             </motion.span>
           )}
         </div>
@@ -87,7 +86,7 @@ export function AdminSidebar({ children }: { children: React.ReactNode }) {
                   'relative flex items-center w-full rounded-xl transition-all duration-200',
                   collapsed ? 'justify-center h-11 w-11 mx-auto' : 'px-3 py-2.5 gap-3',
                   active
-                    ? 'bg-gradient-to-r from-[#D4AF37]/15 to-transparent text-[#D4AF37]'
+                    ? 'bg-gradient-to-r from-[#2563EB]/15 to-transparent text-[#2563EB]'
                     : 'text-white/50 hover:text-white/80 hover:bg-white/[0.04]'
                 )}
               >
@@ -95,7 +94,7 @@ export function AdminSidebar({ children }: { children: React.ReactNode }) {
                   <motion.div
                     layoutId="sidebar-active"
                     className={cn(
-                      'absolute inset-0 rounded-xl border border-[#D4AF37]/20',
+                      'absolute inset-0 rounded-xl border border-[#2563EB]/20',
                       collapsed ? '' : ''
                     )}
                   />
@@ -107,7 +106,7 @@ export function AdminSidebar({ children }: { children: React.ReactNode }) {
                   )}
                 </div>
                 {!collapsed && item.badge && (
-                  <span className="ml-auto relative z-10 w-2 h-2 rounded-full bg-[#D4AF37] shadow-[0_0_6px_rgba(212,175,55,0.5)]" />
+                  <span className="ml-auto relative z-10 w-2 h-2 rounded-full bg-[#2563EB] shadow-[0_0_6px_rgba(37,99,235,0.5)]" />
                 )}
               </Link>
             );
@@ -147,10 +146,10 @@ export function AdminSidebar({ children }: { children: React.ReactNode }) {
         >
           <Menu className="w-5 h-5" />
         </button>
-        <span className="font-bold text-white">Admin Panel</span>
+        <span className="font-bold text-white">Dolphin Cafe</span>
         <button className="w-9 h-9 rounded-lg bg-white/[0.06] flex items-center justify-center text-white relative">
           <Bell className="w-5 h-5" />
-          <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-[#D4AF37]" />
+          <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-[#2563EB]" />
         </button>
       </div>
 
@@ -166,10 +165,8 @@ export function AdminSidebar({ children }: { children: React.ReactNode }) {
           >
             <div className="flex items-center justify-between h-14 px-4 border-b border-white/[0.06]">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#D4AF37] to-[#B8962F] flex items-center justify-center">
-                  <ChefHat className="w-4 h-4 text-white" />
-                </div>
-                <span className="font-bold text-white">Admin Panel</span>
+                <Image src="/dolphin-logo.png" alt="Dolphin" width={32} height={32} className="shrink-0" />
+                <span className="font-bold text-white">Dolphin Cafe</span>
               </div>
               <button onClick={() => setMobileOpen(false)} className="text-white/50 hover:text-white">
                 <X className="w-5 h-5" />
@@ -185,14 +182,14 @@ export function AdminSidebar({ children }: { children: React.ReactNode }) {
                     className={cn(
                       'flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium transition-all',
                       active
-                        ? 'bg-gradient-to-r from-[#D4AF37]/15 to-transparent text-[#D4AF37]'
+                        ? 'bg-gradient-to-r from-[#2563EB]/15 to-transparent text-[#2563EB]'
                         : 'text-white/50 hover:text-white/80 hover:bg-white/[0.04]'
                     )}
                   >
                     <item.icon className="w-5 h-5" />
                     {item.label}
                     {item.badge && (
-                      <span className="ml-auto w-2 h-2 rounded-full bg-[#D4AF37]" />
+                      <span className="ml-auto w-2 h-2 rounded-full bg-[#2563EB]" />
                     )}
                   </button>
                 );

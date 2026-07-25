@@ -45,12 +45,12 @@ export function Cart({ isOpen, onClose, items, onUpdateQuantity, onRemoveItem, o
             transition={{ type: 'tween', duration: 0.2, ease: 'easeOut' }}
             className="fixed right-0 top-0 h-full w-full max-w-md z-50"
           >
-            <GlassCard className="h-full rounded-none border-r border-[#D4AF37]/20">
+            <GlassCard className="h-full rounded-none border-r border-[#2563EB]/20">
               <div className="flex flex-col h-full">
                 {/* Header */}
-                <div className="flex items-center justify-between p-6 border-b border-[#D4AF37]/20">
+                <div className="flex items-center justify-between p-6 border-b border-[#2563EB]/20">
                   <div className="flex items-center space-x-3">
-                    <ShoppingBag className="w-6 h-6 text-[#D4AF37]" />
+                    <ShoppingBag className="w-6 h-6 text-[#2563EB]" />
                     <h2 className="text-2xl font-bold text-black dark:text-white">
                       Your Cart
                     </h2>
@@ -69,7 +69,7 @@ export function Cart({ isOpen, onClose, items, onUpdateQuantity, onRemoveItem, o
                 <div className="flex-1 overflow-y-auto p-6">
                   {items.length === 0 ? (
                     <div className="flex flex-col items-center justify-center h-full text-center">
-                      <ShoppingBag className="w-16 h-16 text-[#D4AF37]/30 mb-4" />
+                      <ShoppingBag className="w-16 h-16 text-[#2563EB]/30 mb-4" />
                       <p className="text-black/60 dark:text-white/60 text-lg">
                         Your cart is empty
                       </p>
@@ -81,10 +81,10 @@ export function Cart({ isOpen, onClose, items, onUpdateQuantity, onRemoveItem, o
                           key={item.id}
                           initial={{ opacity: 0, x: 20 }}
                           animate={{ opacity: 1, x: 0 }}
-                          className="bg-white/40 dark:bg-black/40 backdrop-blur-sm rounded-xl p-4 border border-[#D4AF37]/10"
+                          className="bg-white/40 dark:bg-black/40 backdrop-blur-sm rounded-xl p-4 border border-[#2563EB]/10"
                         >
                           <div className="flex items-start space-x-4">
-                            <div className="w-16 h-16 bg-gradient-to-br from-[#D4AF37]/20 to-[#D4AF37]/5 rounded-lg flex items-center justify-center overflow-hidden">
+                            <div className="w-16 h-16 bg-gradient-to-br from-[#2563EB]/20 to-[#2563EB]/5 rounded-lg flex items-center justify-center overflow-hidden">
                               {item.image?.match(/^(https?:|data:|\/api\/)/) ? (
                                 <img src={item.image} alt={item.name} className="w-full h-full object-cover" loading="lazy" decoding="async" />
                               ) : (
@@ -100,7 +100,7 @@ export function Cart({ isOpen, onClose, items, onUpdateQuantity, onRemoveItem, o
                                   {item.customizations.join(', ')}
                                 </p>
                               )}
-                              <p className="text-[#D4AF37] font-bold">ETB {item.price}</p>
+                              <p className="text-[#2563EB] font-bold">ETB {item.price}</p>
                             </div>
                             <motion.button
                               whileHover={{ scale: 1.1 }}
@@ -117,7 +117,7 @@ export function Cart({ isOpen, onClose, items, onUpdateQuantity, onRemoveItem, o
                               whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.9 }}
                               onClick={() => onUpdateQuantity(item.id, Math.max(1, item.quantity - 1))}
-                              className="w-8 h-8 border border-[#D4AF37]/30 rounded-full flex items-center justify-center"
+                              className="w-8 h-8 border border-[#2563EB]/30 rounded-full flex items-center justify-center"
                             >
                               <Minus className="w-4 h-4 text-black dark:text-white" />
                             </motion.button>
@@ -128,7 +128,7 @@ export function Cart({ isOpen, onClose, items, onUpdateQuantity, onRemoveItem, o
                               whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.9 }}
                               onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
-                              className="w-8 h-8 border border-[#D4AF37]/30 rounded-full flex items-center justify-center"
+                              className="w-8 h-8 border border-[#2563EB]/30 rounded-full flex items-center justify-center"
                             >
                               <Plus className="w-4 h-4 text-black dark:text-white" />
                             </motion.button>
@@ -141,7 +141,7 @@ export function Cart({ isOpen, onClose, items, onUpdateQuantity, onRemoveItem, o
 
                 {/* Footer */}
                 {items.length > 0 && (
-                  <div className="p-6 border-t border-[#D4AF37]/20 space-y-4">
+                  <div className="p-6 border-t border-[#2563EB]/20 space-y-4">
                     <div className="flex items-center justify-between">
                       <span className="text-black dark:text-white">Subtotal</span>
                       <span className="text-black dark:text-white font-bold">ETB {total}</span>
@@ -152,13 +152,13 @@ export function Cart({ isOpen, onClose, items, onUpdateQuantity, onRemoveItem, o
                     </div>
                     <div className="flex items-center justify-between text-lg">
                       <span className="text-black dark:text-white font-bold">Total</span>
-                      <span className="text-[#D4AF37] font-bold">ETB {total * 1.1}</span>
+                      <span className="text-[#2563EB] font-bold">ETB {total * 1.1}</span>
                     </div>
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={onCheckout}
-                      className="w-full py-4 bg-[#D4AF37] text-white rounded-full font-bold text-lg hover:bg-[#B8962F] transition-colors"
+                      className="w-full py-4 bg-[#2563EB] text-white rounded-full font-bold text-lg hover:bg-[#1D4ED8] transition-colors"
                     >
                       Proceed to Checkout
                     </motion.button>

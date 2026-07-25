@@ -3,7 +3,7 @@
 import { cookies } from 'next/headers';
 import { supabase } from './supabase';
 
-const WAITER_EMAIL = process.env.WAITER_EMAIL || 'waiter@brightcafe.com';
+const WAITER_EMAIL = process.env.WAITER_EMAIL || 'waiter@dolphincafe.com';
 const WAITER_PASSWORD = process.env.WAITER_PASSWORD || 'waiter123';
 
 export async function verifyWaiter(email: string, password: string) {

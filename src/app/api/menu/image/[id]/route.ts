@@ -5,6 +5,11 @@ export const runtime = 'nodejs';
 
 const CACHE_ONE_YEAR = 'public, max-age=31536000, immutable';
 
+type ImageCacheEntry = { body: ArrayBuffer; contentType: string; expiry: number };
+const imageCache = new Map<string, ImageCacheEntry>();
+
+const IMAGE_TTL = 3600 * 1000;
+
 export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -13,6 +18,17 @@ export async function GET(
   const numericId = Number(id);
   if (!Number.isFinite(numericId)) {
     return NextResponse.json({ error: 'Invalid id' }, { status: 400 });
+  }
+
+  const cacheKey = `img-${numericId}`;
+  const cached = imageCache.get(cacheKey);
+  if (cached && Date.now() < cached.expiry) {
+    return new NextResponse(cached.body, {
+      headers: {
+        'Content-Type': cached.contentType,
+        'Cache-Control': CACHE_ONE_YEAR,
+      },
+    });
   }
 
   const { data, error } = await supabase
@@ -44,6 +60,14 @@ export async function GET(
 
     const mimeMatch = meta.match(/data:([^;,]+)/);
     const contentType = mimeMatch?.[1] || 'image/jpeg';
+
+    const arrayBuf = body.buffer.slice(body.byteOffset, body.byteOffset + body.byteLength) as ArrayBuffer;
+
+    imageCache.set(cacheKey, {
+      body: arrayBuf,
+      contentType,
+      expiry: Date.now() + IMAGE_TTL,
+    });
 
     return new NextResponse(body, {
       headers: {

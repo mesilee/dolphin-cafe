@@ -29,7 +29,7 @@ export default function WaiterTablesPage() {
   if (authorized === null) {
     return (
       <div className="min-h-screen bg-[#050508] flex items-center justify-center">
-        <div className="w-14 h-14 border-2 border-[#D4AF37]/30 border-t-[#D4AF37] rounded-full animate-spin" />
+        <div className="w-14 h-14 border-2 border-[#2563EB]/30 border-t-[#2563EB] rounded-full animate-spin" />
       </div>
     );
   }

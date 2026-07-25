@@ -12,7 +12,7 @@ const statusConfig: Record<string, { label: string; color: string; bg: string; d
   confirmed: { label: 'New', color: 'text-blue-400', bg: 'bg-blue-500/10', dot: 'bg-blue-400', next: 'preparing', nextLabel: 'Start Preparing' },
   preparing: { label: 'Preparing', color: 'text-amber-400', bg: 'bg-amber-500/10', dot: 'bg-amber-400', next: 'ready', nextLabel: 'Mark Ready' },
   ready: { label: 'Ready', color: 'text-emerald-400', bg: 'bg-emerald-500/10', dot: 'bg-emerald-400', next: 'served', nextLabel: 'Mark Served' },
-  served: { label: 'Served', color: 'text-[#D4AF37]', bg: 'bg-[#D4AF37]/10', dot: 'bg-[#D4AF37]' },
+  served: { label: 'Served', color: 'text-[#2563EB]', bg: 'bg-[#2563EB]/10', dot: 'bg-[#2563EB]' },
   cancelled: { label: 'Cancelled', color: 'text-red-400', bg: 'bg-red-500/10', dot: 'bg-red-400' },
 };
 
@@ -51,7 +51,7 @@ export default function WaiterOrdersPage() {
   if (loading) {
     return (
       <div className="min-h-[80vh] flex items-center justify-center">
-        <div className="w-10 h-10 border-2 border-[#D4AF37]/30 border-t-[#D4AF37] rounded-full animate-spin" />
+        <div className="w-10 h-10 border-2 border-[#2563EB]/30 border-t-[#2563EB] rounded-full animate-spin" />
       </div>
     );
   }
@@ -82,7 +82,7 @@ export default function WaiterOrdersPage() {
           <button key={tab} onClick={() => setActiveTab(tab)}
             className={cn('px-3.5 py-2 rounded-xl text-xs font-medium transition-all border capitalize',
               activeTab === tab
-                ? 'border-[#D4AF37]/40 bg-gradient-to-r from-[#D4AF37]/15 to-transparent text-[#D4AF37]'
+                ? 'border-[#2563EB]/40 bg-gradient-to-r from-[#2563EB]/15 to-transparent text-[#2563EB]'
                 : 'border-white/[0.06] text-white/40 hover:text-white/60'
             )}>
             {tab === 'active' ? `Active (${activeCount})` : 'All'}
@@ -128,11 +128,11 @@ export default function WaiterOrdersPage() {
                 </div>
 
                 <div className="flex items-center justify-between pt-3 border-t border-white/[0.06]">
-                  <span className="text-sm font-bold text-[#D4AF37]">ETB {total.toFixed(2)}</span>
+                  <span className="text-sm font-bold text-[#2563EB]">ETB {total.toFixed(2)}</span>
                   <div className="flex gap-2">
                     {order.status === 'ready' && (
                       <button onClick={() => handleStatus(order.id, 'served')}
-                        className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#E5C158] text-black text-xs font-semibold hover:brightness-110 transition-all flex items-center gap-1">
+                        className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#60A5FA] text-black text-xs font-semibold hover:brightness-110 transition-all flex items-center gap-1">
                         Mark Served <ArrowRight className="w-3 h-3" />
                       </button>
                     )}

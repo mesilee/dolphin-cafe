@@ -90,7 +90,7 @@ export function AdminMenuClient() {
     <div className="p-4 sm:p-6 lg:p-8">
       <div className="flex items-center justify-end mb-4">
         <button onClick={refresh} disabled={refreshing}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/[0.08] text-white/50 text-xs hover:text-[#D4AF37] hover:border-[#D4AF37]/30 transition-all disabled:opacity-50">
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/[0.08] text-white/50 text-xs hover:text-[#2563EB] hover:border-[#2563EB]/30 transition-all disabled:opacity-50">
           <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? 'animate-spin' : ''}`} />
           {refreshing ? 'Refreshing...' : 'Sync from DB'}
         </button>

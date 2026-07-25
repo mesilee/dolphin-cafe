@@ -14,8 +14,8 @@ export default async function Page() {
   );
   
   const priority = [
-    'Bright Special Double Beef Burger', 'Bright Special Burger', 'Beef Burger', 
-    'Bright Special Pizza', 'Grilled Fish', 'Mixed Salad', 'Chicken Burger', 
+    'Dolphin Special Double Beef Burger', 'Dolphin Special Burger', 'Beef Burger', 
+    'Dolphin Special Pizza', 'Grilled Fish', 'Mixed Salad', 'Chicken Burger', 
     'Fish Cutlet', 'Club Sandwich'
   ];
   

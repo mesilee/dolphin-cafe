@@ -52,7 +52,7 @@ export function StaffManagement({ staff, onAdd, onEdit, onDelete }: StaffManagem
         </div>
         <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
           onClick={() => { setEditingMember(null); setIsModalOpen(true); }}
-          className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#E5C158] text-black font-semibold text-sm hover:brightness-110 transition-all flex items-center gap-2 shadow-lg shadow-[#D4AF37]/20">
+          className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#60A5FA] text-black font-semibold text-sm hover:brightness-110 transition-all flex items-center gap-2 shadow-lg shadow-[#2563EB]/20">
           <Plus className="w-4 h-4" /> Add Staff
         </motion.button>
       </div>
@@ -65,18 +65,18 @@ export function StaffManagement({ staff, onAdd, onEdit, onDelete }: StaffManagem
           return (
             <button key={role} onClick={() => setSelectedRole(role)}
               className={cn('px-3.5 py-2 rounded-xl text-xs font-medium transition-all border',
-                active ? 'border-[#D4AF37]/40 bg-gradient-to-r from-[#D4AF37]/15 to-transparent text-[#D4AF37]' : 'border-white/[0.06] text-white/40 hover:text-white/60 hover:bg-white/[0.04]'
+                active ? 'border-[#2563EB]/40 bg-gradient-to-r from-[#2563EB]/15 to-transparent text-[#2563EB]' : 'border-white/[0.06] text-white/40 hover:text-white/60 hover:bg-white/[0.04]'
               )}>
-              {label} <span className={cn('ml-1.5 px-1.5 py-0.5 rounded text-[10px]', active ? 'bg-[#D4AF37]/20' : 'bg-white/[0.06]')}>{count}</span>
+              {label} <span className={cn('ml-1.5 px-1.5 py-0.5 rounded text-[10px]', active ? 'bg-[#2563EB]/20' : 'bg-white/[0.06]')}>{count}</span>
             </button>
           );
         })}
       </div>
 
       <div className="relative group">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#D4AF37] transition-colors z-10" />
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#2563EB] transition-colors z-10" />
         <input type="text" placeholder="Search staff..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
-          className="relative w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all" />
+          className="relative w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all" />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -104,7 +104,7 @@ export function StaffManagement({ staff, onAdd, onEdit, onDelete }: StaffManagem
                   </div>
                   <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button onClick={() => { setEditingMember(member); setIsModalOpen(true); }}
-                      className="p-1.5 rounded-lg hover:bg-white/[0.06] text-white/40 hover:text-[#D4AF37] transition-all"><Edit className="w-3.5 h-3.5" /></button>
+                      className="p-1.5 rounded-lg hover:bg-white/[0.06] text-white/40 hover:text-[#2563EB] transition-all"><Edit className="w-3.5 h-3.5" /></button>
                     <button onClick={() => onDelete(member.id)}
                       className="p-1.5 rounded-lg hover:bg-white/[0.06] text-white/40 hover:text-red-400 transition-all"><Trash2 className="w-3.5 h-3.5" /></button>
                   </div>
@@ -148,24 +148,24 @@ export function StaffManagement({ staff, onAdd, onEdit, onDelete }: StaffManagem
                 <div>
                   <label className="block text-xs font-medium text-white/50 mb-1.5 uppercase tracking-wider">Full Name</label>
                   <input type="text" name="name" defaultValue={editingMember?.name}
-                    className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all" required />
+                    className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all" required />
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-white/50 mb-1.5 uppercase tracking-wider">Email</label>
                   <input type="email" name="email" defaultValue={editingMember?.email}
-                    className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all" required />
+                    className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all" required />
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-white/50 mb-1.5 uppercase tracking-wider">Phone</label>
                   <input type="tel" name="phone" defaultValue={editingMember?.phone}
-                    className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all" />
+                    className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all" />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-medium text-white/50 mb-1.5 uppercase tracking-wider">Role</label>
                     <div className="relative">
                       <select name="role" defaultValue={editingMember?.role || 'waiter'}
-                        className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm appearance-none focus:outline-none focus:border-[#D4AF37]/50 transition-all cursor-pointer">
+                        className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm appearance-none focus:outline-none focus:border-[#2563EB]/50 transition-all cursor-pointer">
                         <option value="admin" className="bg-[#0a0a12]">Admin</option>
                         <option value="manager" className="bg-[#0a0a12]">Manager</option>
                         <option value="chef" className="bg-[#0a0a12]">Chef</option>
@@ -179,7 +179,7 @@ export function StaffManagement({ staff, onAdd, onEdit, onDelete }: StaffManagem
                     <label className="block text-xs font-medium text-white/50 mb-1.5 uppercase tracking-wider">Status</label>
                     <div className="relative">
                       <select name="status" defaultValue={editingMember?.status || 'active'}
-                        className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm appearance-none focus:outline-none focus:border-[#D4AF37]/50 transition-all cursor-pointer">
+                        className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm appearance-none focus:outline-none focus:border-[#2563EB]/50 transition-all cursor-pointer">
                         <option value="active" className="bg-[#0a0a12]">Active</option>
                         <option value="inactive" className="bg-[#0a0a12]">Inactive</option>
                       </select>
@@ -191,7 +191,7 @@ export function StaffManagement({ staff, onAdd, onEdit, onDelete }: StaffManagem
                   <button type="button" onClick={() => setIsModalOpen(false)}
                     className="flex-1 px-4 py-2.5 rounded-xl border border-white/[0.08] text-white/60 text-sm font-medium hover:bg-white/[0.04] transition-all">Cancel</button>
                   <button type="submit"
-                    className="flex-1 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#E5C158] text-black font-semibold text-sm hover:brightness-110 transition-all">
+                    className="flex-1 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#60A5FA] text-black font-semibold text-sm hover:brightness-110 transition-all">
                     {editingMember ? 'Update' : 'Add Staff'}</button>
                 </div>
               </form>

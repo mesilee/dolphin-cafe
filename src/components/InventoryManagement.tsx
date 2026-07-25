@@ -75,21 +75,21 @@ export function InventoryManagement({ items, onAdd, onEdit, onDelete, onUpdateQu
       {/* Search & Filter */}
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1 group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#D4AF37] transition-colors z-10" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#2563EB] transition-colors z-10" />
           <input type="text" placeholder="Search inventory..." value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="relative w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all" />
+            className="relative w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all" />
         </div>
         <div className="relative">
           <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}
-            className="appearance-none pl-4 pr-10 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm focus:outline-none focus:border-[#D4AF37]/50 transition-all cursor-pointer">
+            className="appearance-none pl-4 pr-10 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm focus:outline-none focus:border-[#2563EB]/50 transition-all cursor-pointer">
             {categories.map(c => <option key={c} value={c} className="bg-[#0a0a12] text-white">{c.charAt(0).toUpperCase() + c.slice(1)}</option>)}
           </select>
           <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 pointer-events-none" />
         </div>
         <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
           onClick={() => { setEditingItem(null); setIsModalOpen(true); }}
-          className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#E5C158] text-black font-semibold text-sm hover:brightness-110 transition-all flex items-center gap-2 shadow-lg shadow-[#D4AF37]/20">
+          className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#60A5FA] text-black font-semibold text-sm hover:brightness-110 transition-all flex items-center gap-2 shadow-lg shadow-[#2563EB]/20">
           <Plus className="w-4 h-4" /> Add Item
         </motion.button>
       </div>
@@ -132,7 +132,7 @@ export function InventoryManagement({ items, onAdd, onEdit, onDelete, onUpdateQu
                   </div>
                   <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button onClick={() => { setEditingItem(item); setIsModalOpen(true); }}
-                      className="p-1.5 rounded-lg hover:bg-white/[0.06] text-white/40 hover:text-[#D4AF37] transition-all">
+                      className="p-1.5 rounded-lg hover:bg-white/[0.06] text-white/40 hover:text-[#2563EB] transition-all">
                       <Edit className="w-3.5 h-3.5" />
                     </button>
                     <button onClick={() => onDelete(item.id)}
@@ -144,7 +144,7 @@ export function InventoryManagement({ items, onAdd, onEdit, onDelete, onUpdateQu
                 <div className="space-y-2 mb-4">
                   <div className="flex justify-between text-xs"><span className="text-white/40">Quantity</span><span className="text-white font-medium">{item.quantity} {item.unit}</span></div>
                   <div className="flex justify-between text-xs"><span className="text-white/40">Min Threshold</span><span className="text-white font-medium">{item.minThreshold} {item.unit}</span></div>
-                  <div className="flex justify-between text-xs"><span className="text-white/40">Cost / Unit</span><span className="text-[#D4AF37] font-semibold">ETB {item.cost}</span></div>
+                  <div className="flex justify-between text-xs"><span className="text-white/40">Cost / Unit</span><span className="text-[#2563EB] font-semibold">ETB {item.cost}</span></div>
                 </div>
                 <div className="flex items-center gap-2 pt-3 border-t border-white/[0.06]">
                   <button onClick={() => onUpdateQuantity(item.id, Math.max(0, item.quantity - 1))}
@@ -199,44 +199,44 @@ export function InventoryManagement({ items, onAdd, onEdit, onDelete, onUpdateQu
                 <div>
                   <label className="block text-xs font-medium text-white/50 mb-1.5 uppercase tracking-wider">Item Name</label>
                   <input type="text" name="name" defaultValue={editingItem?.name}
-                    className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all" required />
+                    className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all" required />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-medium text-white/50 mb-1.5 uppercase tracking-wider">Category</label>
                     <select name="category" defaultValue={editingItem?.category}
-                      className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm focus:outline-none focus:border-[#D4AF37]/50 transition-all" required>
+                      className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm focus:outline-none focus:border-[#2563EB]/50 transition-all" required>
                       {categories.filter(c => c !== 'all').map(c => <option key={c} value={c} className="bg-[#0a0a12]">{c.charAt(0).toUpperCase() + c.slice(1)}</option>)}
                     </select>
                   </div>
                   <div>
                     <label className="block text-xs font-medium text-white/50 mb-1.5 uppercase tracking-wider">Unit</label>
                     <input type="text" name="unit" defaultValue={editingItem?.unit}
-                      className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all" required />
+                      className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all" required />
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-medium text-white/50 mb-1.5 uppercase tracking-wider">Quantity</label>
                     <input type="number" name="quantity" defaultValue={editingItem?.quantity}
-                      className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all" required />
+                      className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all" required />
                   </div>
                   <div>
                     <label className="block text-xs font-medium text-white/50 mb-1.5 uppercase tracking-wider">Min Threshold</label>
                     <input type="number" name="minThreshold" defaultValue={editingItem?.minThreshold}
-                      className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all" required />
+                      className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all" required />
                   </div>
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-white/50 mb-1.5 uppercase tracking-wider">Cost per Unit (ETB)</label>
                   <input type="number" name="cost" step="0.01" defaultValue={editingItem?.cost}
-                    className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all" required />
+                    className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all" required />
                 </div>
                 <div className="flex gap-3 pt-2">
                   <button type="button" onClick={() => setIsModalOpen(false)}
                     className="flex-1 px-4 py-2.5 rounded-xl border border-white/[0.08] text-white/60 text-sm font-medium hover:bg-white/[0.04] transition-all">Cancel</button>
                   <button type="submit"
-                    className="flex-1 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#E5C158] text-black font-semibold text-sm hover:brightness-110 transition-all">
+                    className="flex-1 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#60A5FA] text-black font-semibold text-sm hover:brightness-110 transition-all">
                     {editingItem ? 'Update' : 'Add Item'}</button>
                 </div>
               </form>

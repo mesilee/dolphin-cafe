@@ -1,46 +1,13 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowRight, Star, UtensilsCrossed, Coffee, Wine, Pizza, Cake, Search, ShoppingBag, Smartphone, Scan, ChefHat, Clock, MapPin, Phone, Quote } from 'lucide-react';
+import { ArrowRight, MapPin, Phone } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import Link from 'next/link';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { getRestaurantSettings } from '@/lib/actions';
 import { getCached, setCache } from '@/lib/cache';
 import Image from 'next/image';
-
-function Counter({ to, suffix = '' }: { to: number; suffix?: string }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref);
-
-  useEffect(() => {
-    if (!inView) return;
-    const duration = 2000;
-    const start = performance.now();
-    const animate = (now: number) => {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      setCount(Math.floor(progress * to));
-      if (progress < 1) requestAnimationFrame(animate);
-    };
-    requestAnimationFrame(animate);
-  }, [inView, to]);
-
-  return <span ref={ref}>{count}{suffix}</span>;
-}
-
-function useInView(ref: React.RefObject<HTMLDivElement | null>) {
-  const [inView, setInView] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(([entry]) => { if (entry.isIntersecting) { setInView(true); observer.disconnect(); } }, { threshold: 0.3 });
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [ref]);
-  return inView;
-}
 
 interface LandingClientProps {
   initialSettings: any;
@@ -49,49 +16,8 @@ interface LandingClientProps {
 
 export default function LandingClient({ initialSettings, initialFeatured }: LandingClientProps) {
   const [settings, setSettings] = useState<any>(initialSettings);
-  const [featured, setFeatured] = useState<any[]>(initialFeatured);
-  const [loadingFeatured, setLoadingFeatured] = useState(initialFeatured.length === 0);
-  const heroScale = 1;
-  const heroOpacity = 1;
 
   useEffect(() => {
-    // Warm up the client cache by prefetching menu if not already cached
-    const cachedMenu = getCached<any[]>('menuItems');
-    if (!cachedMenu || cachedMenu.length === 0) {
-      fetch('/api/menu')
-        .then(r => r.json())
-        .then(data => {
-          if (data?.length > 0) {
-            setCache('menuItems', data);
-          }
-        })
-        .catch(() => {});
-    }
-
-    if (!initialFeatured || initialFeatured.length === 0) {
-      const cachedFeatured = getCached<any[]>('featured');
-      if (cachedFeatured) {
-        setFeatured(cachedFeatured);
-        setLoadingFeatured(false);
-      } else {
-        fetch('/api/menu')
-          .then(r => r.json())
-          .then(data => {
-            if (data?.length > 0) {
-              const food = data.filter(Boolean).filter((item: any) => !['Beverages & Drinks', 'Hot Drinks', 'Juice & Shakes', 'Soft Drinks'].includes(item.category));
-              const priority = ['Bright Special Double Beef Burger', 'Bright Special Burger', 'Beef Burger', 'Bright Special Pizza', 'Grilled Fish', 'Mixed Salad', 'Chicken Burger', 'Fish Cutlet', 'Club Sandwich'];
-              const byPriority = priority.map((n: string) => food.find((i: any) => i.name === n)).filter(Boolean);
-              const rest = food.filter((i: any) => !priority.includes(i.name));
-              const result = [...byPriority, ...rest].slice(0, 6);
-              setFeatured(result);
-              setCache('featured', result);
-            }
-            setLoadingFeatured(false);
-          })
-          .catch(() => setLoadingFeatured(false));
-      }
-    }
-
     if (!initialSettings) {
       const cachedSettings = getCached<any>('settings');
       if (cachedSettings) {
@@ -105,447 +31,243 @@ export default function LandingClient({ initialSettings, initialFeatured }: Land
           .catch(() => {});
       }
     }
-  }, [initialFeatured, initialSettings]);
-
-  const sectionHeaderClass = (delay: number) => `animate-fade-in-up anim-delay-${delay}`;
-
-  const categories = [
-    { icon: Coffee, label: 'Hot Drinks', category: 'Hot Drinks', color: 'from-amber-500/20 to-amber-600/10', emoji: '☕' },
-    { icon: Wine, label: 'Beverages', category: 'Beverages & Drinks', color: 'from-blue-500/20 to-blue-600/10', emoji: '🥤' },
-    { icon: Pizza, label: 'Pizza', category: 'Pizza', color: 'from-orange-500/20 to-orange-600/10', emoji: '🍕' },
-    { icon: Cake, label: 'Cake & Snacks', category: 'Cake & Snacks', color: 'from-pink-500/20 to-pink-600/10', emoji: '🍰' },
-    { icon: UtensilsCrossed, label: 'Habesha Food', category: 'የሐበሻ ምግብ (Habesha Food)', color: 'from-emerald-500/20 to-emerald-600/10', emoji: '🇪🇹' },
-    { icon: Search, label: 'All Categories', category: '', color: 'from-[#D4AF37]/20 to-[#D4AF37]/10', emoji: '✨' },
-  ];
-
-  const testimonials = [
-    { name: 'Sarah T.', role: 'Regular Customer', text: 'The digital menu experience is incredible! Ordering from my phone is so convenient.', rating: 5 },
-    { name: 'Michael K.', role: 'Food Enthusiast', text: 'Best Habesha food in town. The traditional dishes are authentic and delicious.', rating: 5 },
-    { name: 'Helen W.', role: 'Event Organizer', text: 'Perfect for large groups. Everyone can order individually right from their phone.', rating: 5 },
-    { name: 'David M.', role: 'Business Traveler', text: 'Fast service, amazing food, and the QR menu makes everything so smooth.', rating: 5 },
-  ];
-
-  const steps = [
-    { icon: Scan, title: 'Scan the QR', description: 'Find the QR code on your table and scan it with your phone camera', color: 'from-[#D4AF37] to-[#E5C158]' },
-    { icon: Search, title: 'Browse Menu', description: 'Explore our extensive menu with beautiful food photography', color: 'from-amber-500 to-orange-500' },
-    { icon: ShoppingBag, title: 'Place Order', description: 'Add items to your cart and place your order instantly', color: 'from-emerald-500 to-teal-500' },
-    { icon: ChefHat, title: 'Enjoy', description: 'Our chefs prepare your meal while you relax', color: 'from-rose-500 to-pink-500' },
-  ];
-
-  const floatingEmojis = ['🍕', '🥤', '☕', '🍰', '🥗', '🍝', '🥩', '🍦'];
+  }, [initialSettings]);
 
   return (
-    <div className="min-h-screen bg-[#050508] text-white overflow-hidden">
-      {/* Floating Background Emojis */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        {floatingEmojis.map((emoji, i) => (
-          <div
-            key={i}
-            className="absolute text-4xl sm:text-6xl opacity-[0.04]"
-            style={{ left: `${10 + i * 12}%`, top: `${15 + (i % 4) * 20}%` }}
+    <div className="min-h-screen bg-[#f8faff] text-[#1a1a2e] overflow-hidden">
+
+      {/* Hero Section with Curves */}
+      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden">
+        {/* Curved background shapes */}
+        <div className="absolute inset-0 pointer-events-none">
+          {/* Top curve */}
+          <svg className="absolute top-0 left-0 w-full" viewBox="0 0 1440 400" preserveAspectRatio="none" style={{ height: '50vh' }}>
+            <defs>
+              <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style={{ stopColor: '#2563EB', stopOpacity: 0.08 }} />
+                <stop offset="50%" style={{ stopColor: '#3B82F6', stopOpacity: 0.12 }} />
+                <stop offset="100%" style={{ stopColor: '#1D4ED8', stopOpacity: 0.06 }} />
+              </linearGradient>
+            </defs>
+            <path d="M0,0 L0,200 Q360,350 720,250 Q1080,150 1440,300 L1440,0 Z" fill="url(#grad1)" />
+            <path d="M0,50 Q360,200 720,120 Q1080,40 1440,180" stroke="#2563EB" strokeWidth="1" fill="none" opacity="0.15" />
+            <path d="M0,80 Q360,230 720,150 Q1080,70 1440,210" stroke="#2563EB" strokeWidth="0.5" fill="none" opacity="0.1" />
+          </svg>
+
+          {/* Bottom curve */}
+          <svg className="absolute bottom-0 left-0 w-full" viewBox="0 0 1440 400" preserveAspectRatio="none" style={{ height: '50vh' }}>
+            <defs>
+              <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style={{ stopColor: '#1D4ED8', stopOpacity: 0.05 }} />
+                <stop offset="50%" style={{ stopColor: '#2563EB', stopOpacity: 0.08 }} />
+                <stop offset="100%" style={{ stopColor: '#3B82F6', stopOpacity: 0.04 }} />
+              </linearGradient>
+            </defs>
+            <path d="M0,400 L0,200 Q360,50 720,150 Q1080,250 1440,100 L1440,400 Z" fill="url(#grad2)" />
+            <path d="M0,350 Q360,200 720,280 Q1080,360 1440,220" stroke="#2563EB" strokeWidth="1" fill="none" opacity="0.1" />
+          </svg>
+
+          {/* Floating blue orbs */}
+          <div className="absolute top-[15%] left-[10%] w-72 h-72 rounded-full bg-[#2563EB]/[0.07] blur-[100px]" />
+          <div className="absolute bottom-[20%] right-[10%] w-80 h-80 rounded-full bg-[#3B82F6]/[0.06] blur-[120px]" />
+          <div className="absolute top-[60%] left-[50%] -translate-x-1/2 w-96 h-96 rounded-full bg-[#1D4ED8]/[0.05] blur-[150px]" />
+        </div>
+
+        {/* Content */}
+        <div className="relative z-10 text-center max-w-2xl mx-auto">
+          {/* Logo with curved frame */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.7 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+            className="mb-6"
           >
-            {emoji}
-          </div>
-        ))}
-      </div>
+            <div className="relative inline-block">
+              {/* Curved ring behind logo */}
+              <svg className="absolute inset-0 w-full h-full -m-4" viewBox="0 0 220 220">
+                <defs>
+                  <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style={{ stopColor: '#2563EB', stopOpacity: 0.3 }} />
+                    <stop offset="100%" style={{ stopColor: '#3B82F6', stopOpacity: 0.1 }} />
+                  </linearGradient>
+                </defs>
+                <circle cx="110" cy="110" r="105" fill="none" stroke="url(#ringGrad)" strokeWidth="1" />
+                <path d="M10 110 Q110 60 210 110" stroke="#2563EB" strokeWidth="0.5" fill="none" opacity="0.2" />
+                <path d="M10 110 Q110 160 210 110" stroke="#2563EB" strokeWidth="0.5" fill="none" opacity="0.2" />
+              </svg>
 
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#050508]/80 backdrop-blur-xl border-b border-white/[0.04]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
-          <div className="flex items-center gap-3">
-            <a href="#hero" className="shrink-0">
-              <Image src="/PNG-01.png" alt="Bright Cafe" width={56} height={56} className="w-auto h-14" priority />
-            </a>
-          </div>
-          <div className="flex items-center gap-6">
-            <Link href="/menu" className="text-sm text-white/60 hover:text-white transition-colors">Menu</Link>
-            <a href="#how-it-works" className="text-sm text-white/60 hover:text-white transition-colors hidden sm:block">How It Works</a>
-            <a href="#gallery" className="text-sm text-white/60 hover:text-white transition-colors hidden sm:block">Gallery</a>
-            <a href="#events" className="text-sm text-white/60 hover:text-white transition-colors hidden sm:block">Events</a>
-            <a href="#contact" className="text-sm text-white/60 hover:text-white transition-colors hidden sm:block">Contact</a>
-            <Link href="/menu" className="px-4 py-2 bg-gradient-to-r from-[#D4AF37] to-[#E5C158] text-black text-sm font-semibold rounded-full hover:brightness-110 transition-all">
-              Order Now
-            </Link>
-          </div>
-        </div>
-      </nav>
+              <Image
+                src="/dolphin-logo.png"
+                alt="Dolphin Cafe & Restaurant"
+                width={160}
+                height={160}
+                className="w-32 h-32 sm:w-40 sm:h-40 mx-auto rounded-full shadow-[0_0_60px_rgba(37,99,235,0.2)]"
+                priority
+              />
 
-      {/* Hero */}
-      <motion.section id="hero" style={{ scale: heroScale, opacity: heroOpacity }} className="relative min-h-screen flex items-center justify-center px-4 pt-16">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#D4AF37]/8 via-transparent to-[#050508] pointer-events-none" />
-        <div className="absolute inset-0">
-          <div className="absolute top-1/3 left-1/3 w-[700px] h-[700px] rounded-full bg-[#D4AF37]/5 blur-[150px]" />
-          <div className="absolute bottom-1/3 right-1/3 w-[500px] h-[500px] rounded-full bg-[#D4AF37]/3 blur-[120px]" />
-        </div>
-        <div className="relative z-10 text-center max-w-5xl mx-auto">
-          <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6 }}>
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs text-white/50 mb-8">
-              <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              Now accepting digital orders
+              {/* Curved accent under logo */}
+              <svg className="absolute -bottom-2 left-1/2 -translate-x-1/2" width="140" height="12" viewBox="0 0 140 12">
+                <path d="M5 6 Q70 14 135 6" stroke="#2563EB" strokeWidth="2" fill="none" opacity="0.4" strokeLinecap="round" />
+              </svg>
             </div>
           </motion.div>
-          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-            <Image src="/PNG-01.png" alt="Logo" width={128} height={128} className="h-28 sm:h-32 w-auto mx-auto mb-6 drop-shadow-2xl" priority />
+
+          {/* Restaurant Name */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+          >
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-2">
+              <span className="text-[#1a1a2e]">Dolphin</span>{' '}
+              <span className="text-[#2563EB]">Cafe</span>
+            </h1>
+            {/* Curved divider */}
+            <svg className="mx-auto my-3" width="120" height="8" viewBox="0 0 120 8">
+              <path d="M5 4 Q60 10 115 4" stroke="#2563EB" strokeWidth="2" fill="none" opacity="0.5" strokeLinecap="round" />
+            </svg>
+            <p className="text-[#1a1a2e]/50 text-base sm:text-lg tracking-wide font-light">
+              {settings?.description || '& Restaurant'}
+            </p>
           </motion.div>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.15 }} className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight mb-4">
-            <span className="text-white">Bright</span>{' '}
-            <span className="text-[#D4AF37] relative">
-              Cafe
-              <motion.span initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 0.8, delay: 0.8 }} className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-[#D4AF37] to-transparent origin-left" />
-            </span>
-            <br />
-            <span className="text-3xl sm:text-4xl lg:text-5xl text-white/60 font-light">&amp; Restaurant</span>
-          </motion.h1>
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.3 }} className="text-white/50 text-lg sm:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-            {settings?.description || 'Make Your Day Bright'}
-          </motion.p>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.45 }} className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/menu" className="group relative px-10 py-4 bg-gradient-to-r from-[#D4AF37] to-[#E5C158] text-black font-bold text-lg rounded-full shadow-2xl shadow-[#D4AF37]/25 hover:shadow-[#D4AF37]/50 transition-all duration-500 hover:scale-105 active:scale-95">
-              <span className="absolute inset-0 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#E5C158] blur-xl opacity-50 group-hover:opacity-75 transition-opacity" />
-              <span className="relative flex items-center gap-3">
-                Explore Our Menu <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform" />
-              </span>
-            </Link>
-            <Link href="/menu?table=1" className="group px-8 py-4 border border-white/20 text-white/80 font-medium text-lg rounded-full hover:bg-white/5 hover:border-white/30 transition-all duration-300">
-              <span className="flex items-center gap-2">
-                <Smartphone className="w-5 h-5" />
-                Order from Your Table
-              </span>
-            </Link>
-          </motion.div>
-        </div>
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2 }} className="absolute bottom-8 left-1/2 -translate-x-1/2">
-          <div className="w-6 h-10 border-2 border-white/15 rounded-full flex justify-center p-1">
-            <motion.div animate={{ y: [0, 12, 0] }} transition={{ duration: 1.5, repeat: Infinity }} className="w-1.5 h-3 bg-[#D4AF37] rounded-full" />
-          </div>
-        </motion.div>
-      </motion.section>
 
-      {/* Featured Dishes */}
-      <section className="relative px-4 py-24">
-        <div className="max-w-7xl mx-auto">
-          <div className={`text-center mb-14 ${sectionHeaderClass(0)}`}>
-            <span className="text-[#D4AF37] text-sm font-semibold uppercase tracking-[0.3em]">Premium Selection</span>
-            <h2 className="text-3xl sm:text-5xl font-bold mt-3 mb-4">Featured <span className="text-[#D4AF37]">Dishes</span></h2>
-            <p className="text-white/40 text-lg max-w-2xl mx-auto">Hand-picked favorites from our master chefs</p>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-            {loadingFeatured ? Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="rounded-2xl overflow-hidden aspect-[3/4] bg-white/[0.03] animate-pulse" />
-            )) : featured.map((item, i) => (
-              <motion.div key={item.id || item.name} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
-                whileHover={{ y: -8 }} className="group relative rounded-2xl overflow-hidden aspect-[3/4] cursor-pointer"
-              >
-                <Link href="/menu">
-                  {item.image?.match(/^\/api\//) ? (
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                      loading={i < 3 ? 'eager' : 'lazy'}
-                      decoding="async"
-                    />
-                  ) : (
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      fill
-                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
-                      className="object-cover group-hover:scale-110 transition-transform duration-700"
-                      loading={i < 3 ? 'eager' : 'lazy'}
-                      priority={i < 3}
-                    />
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-[#050508]/30 to-transparent" />
-                  <div className="absolute top-3 left-3">
-                    <span className="text-[10px] font-medium px-2 py-1 rounded-full bg-white/10 backdrop-blur-sm text-white/80">{item.category}</span>
-                  </div>
-                  <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <h3 className="text-sm font-semibold text-white leading-tight mb-1">{item.name}</h3>
-                    <p className="text-[#D4AF37] font-bold">Br. {item.price}</p>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section id="how-it-works" className="relative px-4 py-24">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#D4AF37]/3 via-transparent to-[#D4AF37]/3" />
-        <div className="relative max-w-6xl mx-auto">
-          <div className={`text-center mb-16 ${sectionHeaderClass(0)}`}>
-            <span className="text-[#D4AF37] text-sm font-semibold uppercase tracking-[0.3em]">Simple Process</span>
-            <h2 className="text-3xl sm:text-5xl font-bold mt-3 mb-4">How It <span className="text-[#D4AF37]">Works</span></h2>
-            <p className="text-white/40 text-lg">From your table to your plate in four easy steps</p>
-          </div>
-          <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Connection lines */}
-            <div className="absolute top-20 left-[12%] right-[12%] h-0.5 bg-gradient-to-r from-[#D4AF37]/40 via-[#D4AF37]/20 to-transparent hidden lg:block" />
-            {steps.map((step, i) => (
-              <div key={step.title} className={`relative flex flex-col items-center text-center animate-fade-in-up anim-delay-${i + 1}`}>
-                <div className={`relative w-20 h-20 rounded-2xl bg-gradient-to-br ${step.color} p-0.5 mb-6 shadow-lg`}>
-                  <div className="w-full h-full rounded-2xl bg-[#050508] flex items-center justify-center">
-                    <step.icon className="w-8 h-8 text-[#D4AF37]" />
-                  </div>
-                  <div className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-[#D4AF37] text-black text-xs font-bold flex items-center justify-center shadow-lg">
-                    {i + 1}
-                  </div>
-                </div>
-                <h3 className="text-lg font-semibold text-white mb-2">{step.title}</h3>
-                <p className="text-white/40 text-sm max-w-xs">{step.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Stats */}
-      <section className="relative px-4 py-20">
-        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
-          {[
-            { value: 150, suffix: '+', label: 'Menu Items', icon: UtensilsCrossed },
-            { value: 13, suffix: '', label: 'Categories', icon: Search },
-            { value: 49, suffix: '', label: '5-Star Reviews', icon: Star },
-            { value: 1000, suffix: '+', label: 'Happy Customers', icon: ShoppingBag },
-          ].map((stat, i) => (
-            <motion.div key={stat.label} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-              className="relative group p-6 sm:p-8 rounded-2xl border border-white/[0.06] bg-gradient-to-br from-white/[0.03] to-transparent hover:border-[#D4AF37]/30 transition-all duration-500"
+          {/* Buttons with curved design */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10 mb-12"
+          >
+            <Link
+              href="/menu"
+              className="w-full sm:w-auto px-10 py-4 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-semibold text-base rounded-full transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_8px_30px_rgba(37,99,235,0.25)] hover:shadow-[0_8px_40px_rgba(37,99,235,0.4)] hover:-translate-y-0.5"
             >
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#D4AF37]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="relative z-10 text-center">
-                <stat.icon className="w-6 h-6 text-[#D4AF37]/60 mx-auto mb-3" />
-                <p className="text-3xl sm:text-4xl font-bold text-white mb-1">
-                  <Counter to={stat.value} suffix={stat.suffix} />
-                </p>
-                <p className="text-sm text-white/40">{stat.label}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
+              View Menu <ArrowRight className="w-4 h-4" />
+            </Link>
+            <a
+              href={`https://maps.google.com/?q=${encodeURIComponent(settings?.address || 'Jossy Guest House | 02, 2RMH+P7H, Addis Ababa')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto px-10 py-4 border-2 border-[#2563EB]/20 text-[#2563EB] hover:bg-[#2563EB]/5 hover:border-[#2563EB]/40 font-medium text-base rounded-full transition-all duration-300 flex items-center justify-center gap-2"
+            >
+              <MapPin className="w-4 h-4" /> Get Directions
+            </a>
+          </motion.div>
 
-      {/* Categories Preview */}
-      <section className="relative px-4 py-20">
-        <div className="max-w-6xl mx-auto">
-          <div className={`text-center mb-14 ${sectionHeaderClass(0)}`}>
-            <span className="text-[#D4AF37] text-sm font-semibold uppercase tracking-[0.3em]">Browse by</span>
-            <h2 className="text-3xl sm:text-5xl font-bold mt-3 mb-4">Explore <span className="text-[#D4AF37]">Categories</span></h2>
-            <p className="text-white/40 text-lg">From traditional Ethiopian dishes to international favorites</p>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-            {categories.map((cat, i) => (
-              <motion.div key={cat.label} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
-                whileHover={{ y: -6, scale: 1.02 }}
-              >
-                <Link href={cat.category ? `/menu?category=${encodeURIComponent(cat.category)}` : '/menu'} className="block h-full">
-                  <div className={`relative h-full p-6 rounded-2xl border border-white/[0.06] bg-gradient-to-br ${cat.color} overflow-hidden group`}>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                    <div className="relative z-10 flex flex-col items-center gap-3">
-                      <div className="text-3xl mb-1">{cat.emoji}</div>
-                      <div className="w-10 h-10 rounded-xl bg-white/[0.08] flex items-center justify-center">
-                        <cat.icon className="w-5 h-5 text-[#D4AF37]" />
-                      </div>
-                      <span className="text-sm font-medium text-white/80 text-center">{cat.label}</span>
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="relative px-4 py-24">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#D4AF37]/3 via-transparent to-transparent" />
-        <div className="relative max-w-6xl mx-auto">
-          <div className={`text-center mb-14 ${sectionHeaderClass(0)}`}>
-            <span className="text-[#D4AF37] text-sm font-semibold uppercase tracking-[0.3em]">Testimonials</span>
-            <h2 className="text-3xl sm:text-5xl font-bold mt-3 mb-4">What Our <span className="text-[#D4AF37]">Guests Say</span></h2>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {testimonials.map((t, i) => (
-              <motion.div key={t.name} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                className="relative p-6 rounded-2xl border border-white/[0.06] bg-gradient-to-br from-white/[0.03] to-transparent"
-              >
-                <Quote className="w-8 h-8 text-[#D4AF37]/20 mb-4" />
-                <p className="text-sm text-white/70 leading-relaxed mb-4">&ldquo;{t.text}&rdquo;</p>
-                <div className="flex items-center gap-1 mb-3">
-                  {Array.from({ length: t.rating }).map((_, j) => (
-                    <Star key={j} className="w-3.5 h-3.5 fill-[#D4AF37] text-[#D4AF37]" />
-                  ))}
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-white">{t.name}</p>
-                  <p className="text-xs text-white/40">{t.role}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Piano Night */}
-      <section id="events" className="relative px-4 py-24 scroll-mt-20">
-        <div className="relative max-w-6xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
-            className="relative rounded-3xl overflow-hidden border border-white/[0.06] group"
+          {/* QR Code with curved container */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="inline-block"
           >
-            <div className="aspect-[16/9] sm:aspect-[21/9] relative">
-              <Image src="https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=1200&q=80" alt="Piano Night" fill className="object-cover group-hover:scale-105 transition-transform duration-700" sizes="100vw" />
+            <div className="bg-white rounded-3xl shadow-[0_10px_40px_rgba(37,99,235,0.12)] border border-[#2563EB]/10 p-5">
+              <QRCodeSVG
+                value="https://dolphin-cafe-and-restaurant.vercel.app/menu"
+                size={130}
+                level="H"
+                includeMargin
+                fgColor="#1D4ED8"
+                bgColor="#ffffff"
+              />
             </div>
-            <div className="absolute inset-0 bg-gradient-to-r from-[#050508]/95 via-[#050508]/80 to-[#050508]/30" />
-            <div className="absolute inset-0 flex items-center">
-              <div className="p-8 sm:p-12 lg:p-16 max-w-2xl">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/25 text-[#D4AF37] text-xs font-bold mb-6">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
-                  Every Tuesday &amp; Thursday
+            <p className="mt-3 text-[#1a1a2e]/35 text-xs tracking-wider uppercase">Scan to view menu</p>
+          </motion.div>
+
+          {/* Contact with curved divider */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
+            className="mt-10"
+          >
+            <svg className="mx-auto mb-4" width="200" height="2" viewBox="0 0 200 2">
+              <path d="M0 1 Q50 0 100 1 Q150 2 200 1" stroke="#2563EB" strokeWidth="0.5" fill="none" opacity="0.2" />
+            </svg>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
+              <a
+                href={`tel:${settings?.phone || '0911198890'}`}
+                className="flex items-center gap-2 text-sm text-[#1a1a2e]/50 hover:text-[#2563EB] transition-colors"
+              >
+                <div className="w-8 h-8 rounded-full bg-[#2563EB]/10 flex items-center justify-center">
+                  <Phone className="w-3.5 h-3.5 text-[#2563EB]" />
                 </div>
-                <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">Piano <span className="text-[#D4AF37]">Night</span></h3>
-                <p className="text-white/60 text-lg mb-6 max-w-md leading-relaxed">Enjoy live piano performances while savoring our exquisite dishes. An elegant evening of music and fine dining.</p>
-                <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-sm">
-                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/80">
-                    <Clock className="w-4 h-4 text-[#D4AF37]" />
-                    <span className="font-medium">7:00 PM - 10:00 PM</span>
-                  </div>
-                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#D4AF37]/10 border border-[#D4AF37]/25 text-[#D4AF37]">
-                    <Phone className="w-4 h-4" />
-                    <span className="font-medium">Reservations Open</span>
-                  </div>
+                {settings?.phone || '0911198890'}
+              </a>
+              <a
+                href={`https://maps.google.com/?q=${encodeURIComponent(settings?.address || 'Jossy Guest House | 02, 2RMH+P7H, Addis Ababa')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sm text-[#1a1a2e]/50 hover:text-[#2563EB] transition-colors"
+              >
+                <div className="w-8 h-8 rounded-full bg-[#2563EB]/10 flex items-center justify-center">
+                  <MapPin className="w-3.5 h-3.5 text-[#2563EB]" />
                 </div>
-              </div>
+                <span className="max-w-[200px] truncate">{settings?.address || 'Jossy Guest House | 02, 2RMH+P7H, Addis Ababa'}</span>
+              </a>
             </div>
           </motion.div>
         </div>
-      </section>
 
-      {/* Final CTA */}
-      <section className="relative px-4 py-32">
-        <div className="absolute inset-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-[#D4AF37]/5 blur-[200px]" />
-        </div>
-        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-          className="relative max-w-4xl mx-auto text-center"
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5 }}
+          className="absolute bottom-6 left-1/2 -translate-x-1/2"
         >
-          <h2 className="text-4xl sm:text-6xl font-bold mb-6">Ready to <span className="text-[#D4AF37]">Dine?</span></h2>
-          <p className="text-white/50 text-lg sm:text-xl mb-10 max-w-2xl mx-auto">Browse our full menu with stunning visuals, place your order, and enjoy a premium dining experience.</p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/menu" className="group relative px-12 py-5 bg-gradient-to-r from-[#D4AF37] to-[#E5C158] text-black font-bold text-xl rounded-full shadow-2xl shadow-[#D4AF37]/30 hover:shadow-[#D4AF37]/50 transition-all duration-500 hover:scale-105 active:scale-95">
-              <span className="absolute inset-0 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#E5C158] blur-xl opacity-40 group-hover:opacity-60 transition-opacity" />
-              <span className="relative flex items-center gap-3">
-                View Full Menu <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform" />
-              </span>
-            </Link>
-            <a href={`tel:${settings?.phone || '+251913729407'}`} className="flex items-center gap-2 px-8 py-5 border border-white/20 text-white/80 font-medium text-lg rounded-full hover:bg-white/5 hover:border-white/30 transition-all duration-300">
-              <Phone className="w-5 h-5" /> Call to Reserve
-            </a>
+          <div className="w-5 h-8 border-2 border-[#2563EB]/20 rounded-full flex justify-center p-1">
+            <motion.div
+              animate={{ y: [0, 10, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+              className="w-1 h-2 bg-[#2563EB]/50 rounded-full"
+            />
           </div>
         </motion.div>
       </section>
 
-      {/* QR Code Section */}
-      <section className="relative px-4 py-24">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#D4AF37]/5 via-transparent to-[#D4AF37]/5" />
-        <div className="relative max-w-6xl mx-auto text-center">
-          <div className={`mb-8 ${sectionHeaderClass(0)}`}>
-            <span className="text-[#D4AF37] text-sm font-semibold uppercase tracking-[0.3em]">Digital Menu</span>
-            <h2 className="text-3xl sm:text-5xl font-bold mt-3 mb-4">Scan &amp; <span className="text-[#D4AF37]">Order</span></h2>
-            <p className="text-white/40 text-lg max-w-2xl mx-auto">Point your camera at the QR code below to browse our full menu and place your order directly from your phone.</p>
+      {/* Map Section with Curved Top */}
+      <section className="relative">
+        {/* Curved transition */}
+        <svg className="w-full -mt-1" viewBox="0 0 1440 80" preserveAspectRatio="none" style={{ display: 'block' }}>
+          <path d="M0 80 Q720 0 1440 80 L1440 80 L0 80 Z" fill="#ffffff" />
+        </svg>
+
+        <div className="bg-white pb-12 px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-6">
+              <h2 className="text-xl font-bold text-[#1a1a2e] mb-2">Find Us</h2>
+              <p className="text-sm text-[#1a1a2e]/40 flex items-center justify-center gap-2">
+                <MapPin className="w-3.5 h-3.5 text-[#2563EB]" />
+                {settings?.address || 'Jossy Guest House | 02, 2RMH+P7H, Addis Ababa'}
+              </p>
+            </div>
+            <div className="w-full h-[300px] sm:h-[350px] overflow-hidden rounded-3xl border border-[#2563EB]/10 shadow-[0_10px_40px_rgba(37,99,235,0.08)]">
+              <iframe
+                src="https://www.google.com/maps?q=Jossy+Guest+House+02+2RMH%2B7H+Addis+Ababa&output=embed"
+                className="w-full h-full"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Dolphin Cafe & Restaurant location"
+              />
+            </div>
           </div>
-          <motion.div initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
-            className="inline-flex items-center justify-center p-4 rounded-3xl bg-white shadow-2xl shadow-[#D4AF37]/10 border border-white/10"
-          >
-            <QRCodeSVG value="https://bright-cafe-and-restaurant.vercel.app/menu" size={280} level="H" includeMargin fgColor="#000000" bgColor="#ffffff" />
-          </motion.div>
-          <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.4 }}
-            className="mt-6 text-white/30 text-sm flex items-center justify-center gap-2"
-          >
-            <Smartphone className="w-4 h-4" /> No app download needed
-          </motion.p>
         </div>
       </section>
 
-      {/* Map */}
-      <section className="relative px-4 py-20">
-        <div className="max-w-6xl mx-auto text-center">
-          <div className={`text-center mb-12 ${sectionHeaderClass(0)}`}>
-            <span className="text-[#D4AF37] text-sm font-semibold uppercase tracking-[0.3em]">Visit Us</span>
-            <h2 className="text-3xl sm:text-5xl font-bold mt-3 mb-4">Find <span className="text-[#D4AF37]">Us</span></h2>
-            <p className="text-white/40 text-lg">{settings?.address || 'Bright cafe & restaurant'}</p>
+      {/* Footer with Curved Top */}
+      <footer className="relative">
+        <svg className="w-full" viewBox="0 0 1440 60" preserveAspectRatio="none" style={{ display: 'block' }}>
+          <path d="M0 60 Q360 0 720 30 Q1080 60 1440 10 L1440 60 L0 60 Z" fill="#f0f4ff" />
+        </svg>
+        <div className="bg-[#f0f4ff] px-4 py-8 text-center">
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <Image src="/dolphin-logo.png" alt="Dolphin" width={24} height={24} className="rounded-full" />
+            <span className="text-sm font-semibold text-[#1a1a2e]/70">Dolphin Cafe & Restaurant</span>
           </div>
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
-            className="mx-auto w-full max-w-5xl overflow-hidden rounded-2xl border border-white/[0.06]"
-          >
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7880.6!2d38.7605919!3d9.0023799!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b8535b71f7ba3%3A0x5c30ef01f521d0bb!2sBright%20cafe%20%26%20restaurant!5e0!3m2!1sen!2set!4v1"
-              className="w-full h-[400px]"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Bright cafe & restaurant location"
-            />
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer id="contact" className="border-t border-white/[0.06] px-4 py-12">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
-            <div className="md:col-span-2">
-              <div className="flex items-center gap-3 mb-4">
-                <Image src={settings?.logo || '/PNG-01.png'} alt="Logo" width={36} height={36} className="object-contain" />
-                <span className="font-semibold">Bright Cafe &amp; Restaurant</span>
-              </div>
-              <p className="text-white/40 text-sm max-w-md">Make Your Day Bright</p>
-            </div>
-            <div>
-              <h4 className="text-sm font-semibold text-white mb-4">Quick Links</h4>
-              <div className="space-y-2 text-sm text-white/40">
-                <Link href="/menu" className="block hover:text-[#D4AF37] transition-colors">Our Menu</Link>
-                <a href="#how-it-works" className="block hover:text-[#D4AF37] transition-colors">How It Works</a>
-                <a href="#gallery" className="block hover:text-[#D4AF37] transition-colors">Gallery</a>
-                <a href="#events" className="block hover:text-[#D4AF37] transition-colors">Events</a>
-              </div>
-            </div>
-            <div>
-              <h4 className="text-sm font-semibold text-white mb-4">Contact</h4>
-              <div className="space-y-2 text-sm text-white/40">
-                <a href={`tel:${settings?.phone || '+251913729407'}`} className="flex items-center gap-2 hover:text-[#D4AF37] transition-colors">
-                  <Phone className="w-3.5 h-3.5" /> {settings?.phone || '+251913729407'}
-                </a>
-                <a href={`https://maps.google.com/?q=${encodeURIComponent(settings?.address || 'Bright cafe & restaurant')}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-[#D4AF37] transition-colors">
-                  <MapPin className="w-3.5 h-3.5" /> Find us on Maps
-                </a>
-              </div>
-            </div>
-          </div>
-          <div className="pt-8 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-white/30">&copy; {new Date().getFullYear()} Bright Cafe and Restaurant. All rights reserved.</p>
-            <div className="flex items-center gap-3">
-              <a href={(settings as any)?.facebook || '#'} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center hover:bg-[#D4AF37]/10 hover:text-[#D4AF37] text-white/30 transition-all">
-                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-              </a>
-              <a href={(settings as any)?.instagram || '#'} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center hover:bg-[#D4AF37]/10 hover:text-[#D4AF37] text-white/30 transition-all">
-                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-              </a>
-              <a href={(settings as any)?.telegram || '#'} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center hover:bg-[#D4AF37]/10 hover:text-[#D4AF37] text-white/30 transition-all">
-                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.492-1.302.48-.428-.013-1.252-.242-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-              </a>
-              <a href={(settings as any)?.tiktok || 'https://vt.tiktok.com/ZSXj8qdBa/'} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center hover:bg-[#D4AF37]/10 hover:text-[#D4AF37] text-white/30 transition-all">
-                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 0 0-.79-.05A6.34 6.34 0 0 0 3.15 15.2a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.87a8.16 8.16 0 0 0 4.76 1.52v-3.4a4.85 4.85 0 0 1-1-.3z"/></svg>
-              </a>
-              <a href={(settings as any)?.youtube || '#'} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center hover:bg-[#D4AF37]/10 hover:text-[#D4AF37] text-white/30 transition-all">
-                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-              </a>
-              <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center hover:bg-[#D4AF37]/10 hover:text-[#D4AF37] text-white/30 transition-all">
-                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-              </a>
-            </div>
-          </div>
+          <p className="text-xs text-[#1a1a2e]/30">&copy; {new Date().getFullYear()} Dolphin Cafe and Restaurant. All rights reserved.</p>
         </div>
       </footer>
     </div>

@@ -44,7 +44,7 @@ export function TableManagement({ tables, onAdd, onEdit, onDelete }: TableManage
         </div>
         <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
           onClick={() => { setEditingTable(null); setIsModalOpen(true); }}
-          className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#E5C158] text-black font-semibold text-sm hover:brightness-110 transition-all flex items-center gap-2 shadow-lg shadow-[#D4AF37]/20">
+          className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#60A5FA] text-black font-semibold text-sm hover:brightness-110 transition-all flex items-center gap-2 shadow-lg shadow-[#2563EB]/20">
           <Plus className="w-4 h-4" /> Add Table
         </motion.button>
       </div>
@@ -68,7 +68,7 @@ export function TableManagement({ tables, onAdd, onEdit, onDelete }: TableManage
                   </div>
                   <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button onClick={() => { setEditingTable(table); setIsModalOpen(true); }}
-                      className="p-1.5 rounded-lg hover:bg-white/[0.06] text-white/40 hover:text-[#D4AF37] transition-all"><Edit className="w-3.5 h-3.5" /></button>
+                      className="p-1.5 rounded-lg hover:bg-white/[0.06] text-white/40 hover:text-[#2563EB] transition-all"><Edit className="w-3.5 h-3.5" /></button>
                     <button onClick={() => onDelete(table.id)}
                       className="p-1.5 rounded-lg hover:bg-white/[0.06] text-white/40 hover:text-red-400 transition-all"><Trash2 className="w-3.5 h-3.5" /></button>
                   </div>
@@ -99,7 +99,7 @@ export function TableManagement({ tables, onAdd, onEdit, onDelete }: TableManage
                     <option value="occupied" className="bg-[#0a0a12] text-red-400">Occupied</option>
                   </select>
                   <button onClick={() => setSelectedTable({ ...table, qrCode: getMenuUrl(table.number) })}
-                    className="px-3 py-2 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white/50 text-xs font-medium hover:bg-white/[0.08] hover:text-[#D4AF37] transition-all flex items-center justify-center gap-1.5">
+                    className="px-3 py-2 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white/50 text-xs font-medium hover:bg-white/[0.08] hover:text-[#2563EB] transition-all flex items-center justify-center gap-1.5">
                     <QrCode className="w-3.5 h-3.5" /> QR
                   </button>
                 </div>
@@ -125,7 +125,7 @@ export function TableManagement({ tables, onAdd, onEdit, onDelete }: TableManage
               </div>
               <div className="flex justify-center mb-6">
                 <div className="p-4 bg-white rounded-xl">
-                  <QRCodeSVG id={`qr-${selectedTable.id}`} value={selectedTable.qrCode} size={200} level="H" includeMargin fgColor="#000000" bgColor="#ffffff" />
+                  <QRCodeSVG id={`qr-${selectedTable.id}`} value={selectedTable.qrCode} size={200} level="H" includeMargin fgColor="#1D4ED8" bgColor="#ffffff" />
                 </div>
               </div>
               <div className="space-y-3">
@@ -140,7 +140,7 @@ export function TableManagement({ tables, onAdd, onEdit, onDelete }: TableManage
                     img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
                   }
                 }}
-                  className="w-full px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#E5C158] text-black font-semibold text-sm hover:brightness-110 transition-all flex items-center justify-center gap-2">
+                  className="w-full px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#60A5FA] text-black font-semibold text-sm hover:brightness-110 transition-all flex items-center justify-center gap-2">
                   <Download className="w-4 h-4" /> Download QR
                 </button>
                 <button onClick={() => navigator.clipboard.writeText(selectedTable.qrCode)}
@@ -174,22 +174,22 @@ export function TableManagement({ tables, onAdd, onEdit, onDelete }: TableManage
                 <div>
                   <label className="block text-xs font-medium text-white/50 mb-1.5 uppercase tracking-wider">Table Number</label>
                   <input type="text" name="number" defaultValue={editingTable?.number}
-                    className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all" required />
+                    className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all" required />
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-white/50 mb-1.5 uppercase tracking-wider">Capacity (Guests)</label>
                   <input type="number" name="capacity" defaultValue={editingTable?.capacity}
-                    className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all" required />
+                    className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all" required />
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-white/50 mb-1.5 uppercase tracking-wider">Location</label>
                   <input type="text" name="location" defaultValue={editingTable?.location}
-                    className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all" />
+                    className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all" />
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-white/50 mb-1.5 uppercase tracking-wider">Status</label>
                   <select name="status" defaultValue={editingTable?.status || 'available'}
-                    className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm focus:outline-none focus:border-[#D4AF37]/50 transition-all">
+                    className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm focus:outline-none focus:border-[#2563EB]/50 transition-all">
                     <option value="available" className="bg-[#0a0a12]">Available</option>
                     <option value="occupied" className="bg-[#0a0a12]">Occupied</option>
                     <option value="reserved" className="bg-[#0a0a12]">Reserved</option>
@@ -199,7 +199,7 @@ export function TableManagement({ tables, onAdd, onEdit, onDelete }: TableManage
                   <button type="button" onClick={() => setIsModalOpen(false)}
                     className="flex-1 px-4 py-2.5 rounded-xl border border-white/[0.08] text-white/60 text-sm font-medium hover:bg-white/[0.04] transition-all">Cancel</button>
                   <button type="submit"
-                    className="flex-1 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#E5C158] text-black font-semibold text-sm hover:brightness-110 transition-all">
+                    className="flex-1 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#60A5FA] text-black font-semibold text-sm hover:brightness-110 transition-all">
                     {editingTable ? 'Update' : 'Add Table'}</button>
                 </div>
               </form>

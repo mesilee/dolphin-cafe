@@ -52,19 +52,19 @@ export function ReviewManagement({ reviews, onUpdateStatus, onRespond, onDelete 
             <button key={status} onClick={() => setSelectedStatus(status)}
               className={cn(
                 'relative px-3.5 py-2 rounded-xl text-xs font-medium transition-all border',
-                active ? 'border-[#D4AF37]/40 bg-gradient-to-r from-[#D4AF37]/15 to-transparent text-[#D4AF37]' : 'border-white/[0.06] text-white/40 hover:text-white/60 hover:bg-white/[0.04]'
+                active ? 'border-[#2563EB]/40 bg-gradient-to-r from-[#2563EB]/15 to-transparent text-[#2563EB]' : 'border-white/[0.06] text-white/40 hover:text-white/60 hover:bg-white/[0.04]'
               )}>
               {label}
-              <span className={cn('ml-2 px-1.5 py-0.5 rounded text-[10px]', active ? 'bg-[#D4AF37]/20' : 'bg-white/[0.06]')}>{count}</span>
+              <span className={cn('ml-2 px-1.5 py-0.5 rounded text-[10px]', active ? 'bg-[#2563EB]/20' : 'bg-white/[0.06]')}>{count}</span>
             </button>
           );
         })}
       </div>
 
       <div className="relative group">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#D4AF37] transition-colors z-10" />
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#2563EB] transition-colors z-10" />
         <input type="text" placeholder="Search reviews..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
-          className="relative w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all" />
+          className="relative w-full pl-11 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all" />
       </div>
 
       <div className="space-y-4">
@@ -92,7 +92,7 @@ export function ReviewManagement({ reviews, onUpdateStatus, onRespond, onDelete 
                   )}>{review.status}</span>
                   <div className="flex gap-0.5">
                     {[...Array(5)].map((_, i) => (
-                      <Star key={i} className={cn('w-3.5 h-3.5', i < review.rating ? 'text-[#D4AF37] fill-[#D4AF37]' : 'text-white/20')} />
+                      <Star key={i} className={cn('w-3.5 h-3.5', i < review.rating ? 'text-[#2563EB] fill-[#2563EB]' : 'text-white/20')} />
                     ))}
                   </div>
                 </div>
@@ -101,7 +101,7 @@ export function ReviewManagement({ reviews, onUpdateStatus, onRespond, onDelete 
               <p className="text-sm text-white/70 mb-4">{review.comment}</p>
 
               {review.response && (
-                <div className="mb-4 p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] border-l-2 border-l-[#D4AF37]">
+                <div className="mb-4 p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] border-l-2 border-l-[#2563EB]">
                   <p className="text-xs text-white/50"><span className="font-semibold text-white/70">Response:</span> {review.response}</p>
                 </div>
               )}
@@ -109,11 +109,11 @@ export function ReviewManagement({ reviews, onUpdateStatus, onRespond, onDelete 
               {respondingTo === review.id && (
                 <div className="mb-4 space-y-3">
                   <textarea value={responseText} onChange={(e) => setResponseText(e.target.value)} rows={3}
-                    className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 transition-all resize-none"
+                    className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition-all resize-none"
                     placeholder="Write your response..." />
                   <div className="flex gap-2">
                     <button onClick={() => { if (responseText.trim()) onRespond(review.id, responseText); setRespondingTo(null); setResponseText(''); }}
-                      className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#E5C158] text-black text-xs font-semibold hover:brightness-110 transition-all">Send</button>
+                      className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#60A5FA] text-black text-xs font-semibold hover:brightness-110 transition-all">Send</button>
                     <button onClick={() => { setRespondingTo(null); setResponseText(''); }}
                       className="px-4 py-2 rounded-xl border border-white/[0.08] text-white/50 text-xs hover:bg-white/[0.04] transition-all">Cancel</button>
                   </div>

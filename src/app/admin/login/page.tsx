@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { Lock, Mail, Eye, EyeOff, ChefHat, Sparkles } from 'lucide-react';
+import { Lock, Mail, Eye, EyeOff, Sparkles } from 'lucide-react';
+import Image from 'next/image';
 import { verifyAdmin } from '@/lib/admin-auth';
 
 export default function AdminLogin() {
@@ -36,7 +37,7 @@ export default function AdminLogin() {
     <div className="min-h-screen bg-[#050508] flex items-center justify-center p-4 relative overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#D4AF37]/5 rounded-full blur-[120px]" />
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#2563EB]/5 rounded-full blur-[120px]" />
         <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-purple-500/5 rounded-full blur-[100px]" />
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMjAgMjBMMjAgMjBNMjAgMjBMMjAgMjBNMjAgMjBMMjAgMjBNMjAgMjBMMjAgMjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjAzKSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9zdmc+')] opacity-50" />
       </div>
@@ -48,23 +49,16 @@ export default function AdminLogin() {
       >
         <div className="relative rounded-3xl border border-white/[0.08] bg-gradient-to-br from-white/[0.06] to-white/[0.02] backdrop-blur-2xl p-8 shadow-2xl">
           {/* Inner glow */}
-          <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-[#D4AF37]/5 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-[#2563EB]/5 to-transparent pointer-events-none" />
 
           <div className="relative z-10">
             {/* Logo */}
             <div className="flex justify-center mb-8">
-              <div className="relative">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#D4AF37] to-[#B8962F] flex items-center justify-center shadow-lg shadow-[#D4AF37]/20">
-                  <ChefHat className="w-8 h-8 text-white" />
-                </div>
-                <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#D4AF37] flex items-center justify-center">
-                  <Sparkles className="w-3 h-3 text-white" />
-                </div>
-              </div>
+              <Image src="/dolphin-logo.png" alt="Dolphin Cafe" width={64} height={64} />
             </div>
 
             <div className="text-center mb-8">
-              <h1 className="text-2xl font-bold text-white mb-2">Welcome Back</h1>
+              <h1 className="text-2xl font-bold text-white mb-2">Dolphin Cafe</h1>
               <p className="text-sm text-white/40">Sign in to manage your restaurant</p>
             </div>
 
@@ -72,14 +66,14 @@ export default function AdminLogin() {
               <div>
                 <label className="block text-xs font-medium text-white/50 mb-2 uppercase tracking-wider">Email</label>
                 <div className="relative group">
-                  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#D4AF37]/20 to-transparent opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none" />
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#D4AF37] transition-colors z-10" />
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#2563EB]/20 to-transparent opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none" />
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#2563EB] transition-colors z-10" />
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="relative w-full pl-11 pr-4 py-3 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 focus:bg-white/[0.06] transition-all text-sm"
-                    placeholder="admin@brightcafe.com"
+                    className="relative w-full pl-11 pr-4 py-3 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 focus:bg-white/[0.06] transition-all text-sm"
+                    placeholder="admin@dolphincafe.com"
                     required
                   />
                 </div>
@@ -88,20 +82,20 @@ export default function AdminLogin() {
               <div>
                 <label className="block text-xs font-medium text-white/50 mb-2 uppercase tracking-wider">Password</label>
                 <div className="relative group">
-                  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#D4AF37]/20 to-transparent opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none" />
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#D4AF37] transition-colors z-10" />
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#2563EB]/20 to-transparent opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none" />
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#2563EB] transition-colors z-10" />
                   <input
                     type={showPassword ? 'text' : 'password'}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="relative w-full pl-11 pr-11 py-3 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white placeholder-white/20 focus:outline-none focus:border-[#D4AF37]/50 focus:bg-white/[0.06] transition-all text-sm"
+                    className="relative w-full pl-11 pr-11 py-3 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 focus:bg-white/[0.06] transition-all text-sm"
                     placeholder="Enter your password"
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-white/30 hover:text-[#D4AF37] transition-colors z-10"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-white/30 hover:text-[#2563EB] transition-colors z-10"
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -123,7 +117,7 @@ export default function AdminLogin() {
                 disabled={loading}
                 className="relative w-full py-3.5 rounded-xl font-semibold text-sm text-white overflow-hidden group"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-[#D4AF37] via-[#E5C158] to-[#D4AF37] bg-[length:200%_100%] animate-[shimmer_3s_ease_infinite] group-hover:brightness-110 transition-all" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#2563EB] via-[#60A5FA] to-[#2563EB] bg-[length:200%_100%] animate-[shimmer_3s_ease_infinite] group-hover:brightness-110 transition-all" />
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   {loading ? (
                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />

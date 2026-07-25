@@ -64,7 +64,7 @@ export function OrderTracking({ orderId, estimatedTime }: OrderTrackingProps) {
           </p>
         </div>
         <div className="text-right">
-          <div className="text-2xl font-bold text-[#D4AF37]">{estimatedTime - 8}</div>
+          <div className="text-2xl font-bold text-[#2563EB]">{estimatedTime - 8}</div>
           <div className="text-xs text-black/60 dark:text-white/60">mins remaining</div>
         </div>
       </div>
@@ -75,7 +75,7 @@ export function OrderTracking({ orderId, estimatedTime }: OrderTrackingProps) {
             {index !== steps.length - 1 && (
               <div
                 className={`absolute left-6 top-12 w-0.5 h-full ${
-                  step.completed ? 'bg-[#D4AF37]' : 'bg-[#D4AF37]/20'
+                  step.completed ? 'bg-[#2563EB]' : 'bg-[#2563EB]/20'
                 }`}
               />
             )}
@@ -89,9 +89,9 @@ export function OrderTracking({ orderId, estimatedTime }: OrderTrackingProps) {
               <div
                 className={`w-12 h-12 rounded-full flex items-center justify-center ${
                   step.completed
-                    ? 'bg-[#D4AF37] text-white'
+                    ? 'bg-[#2563EB] text-white'
                     : step.current
-                    ? 'bg-[#D4AF37]/20 text-[#D4AF37] border-2 border-[#D4AF37]'
+                    ? 'bg-[#2563EB]/20 text-[#2563EB] border-2 border-[#2563EB]'
                     : 'bg-black/10 dark:bg-white/10 text-black/40 dark:text-white/40'
                 }`}
               >
@@ -134,7 +134,7 @@ export function OrderTracking({ orderId, estimatedTime }: OrderTrackingProps) {
             initial={{ width: 0 }}
             animate={{ width: '50%' }}
             transition={{ duration: 1 }}
-            className="h-full bg-[#D4AF37] rounded-full"
+            className="h-full bg-[#2563EB] rounded-full"
           />
         </div>
       </div>
