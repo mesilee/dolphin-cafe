@@ -6,7 +6,6 @@ import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getRestaurantSettings, createOrder } from '@/lib/actions';
-import { getCached, setCache } from '@/lib/cache';
 import { QRCodeSVG } from 'qrcode.react';
 
 const FoodModal = lazy(() => import('@/components/FoodModal').then(m => ({ default: m.FoodModal })));
@@ -54,7 +53,6 @@ export function MenuView({
       const data = await res.json();
       if (Array.isArray(data) && data.length > 0) {
         setMenuItems(data);
-        setCache('menuItems', data);
       } else {
         setMenuItems((prev) => (prev === null ? [] : prev));
       }
@@ -74,12 +72,7 @@ export function MenuView({
     }
 
     if (!initialMenuItems || initialMenuItems.length === 0) {
-      const cached = getCached<any[]>('menuItems');
-      if (cached && cached.length > 0) {
-        setMenuItems(cached);
-      } else {
-        refreshMenu();
-      }
+      refreshMenu();
     }
   }, [searchParams, initialMenuItems, initialCategory]);
 

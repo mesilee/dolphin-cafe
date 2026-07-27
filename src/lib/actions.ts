@@ -1,42 +1,19 @@
 'use server';
 
 import { supabase } from './supabase';
-import { getCache as getRedisCache, setCache as setRedisCache, deleteCache } from './redis';
-import { unstable_cache, revalidateTag } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 import { FALLBACK_MENU } from './menu-data';
 
-// ---------------------------------------------------------------------------
-// In-process memory cache — survives between requests in the same Node process.
-// Used for large payloads (>2 MB) that exceed Next.js unstable_cache limits.
-// ---------------------------------------------------------------------------
-type MemEntry = { data: unknown; expiry: number };
-const _memCache = new Map<string, MemEntry>();
-
-function memGet<T>(key: string): T | null {
-  const entry = _memCache.get(key);
-  if (!entry || Date.now() > entry.expiry) { _memCache.delete(key); return null; }
-  return entry.data as T;
-}
-function memSet(key: string, data: unknown, ttlSeconds: number) {
-  _memCache.set(key, { data, expiry: Date.now() + ttlSeconds * 1000 });
-}
-export async function clearMemCache(...keys: string[]) {
-  if (keys.length === 0) { _memCache.clear(); return; }
-  keys.forEach(k => _memCache.delete(k));
+function getFallbackMenu() {
+  return FALLBACK_MENU.map((item: any) => ({
+    ...item,
+    available: true,
+    rating: item.rating || 4.5,
+    created_at: new Date().toISOString(),
+  }));
 }
 
-// Menu Items — select without image column (8 MB), map image to /api/menu/image/[id]
 export async function getMenuItems(): Promise<any[]> {
-  const mem = memGet<any[]>('menuItems');
-  if (mem) return mem;
-
-  try {
-    const redis = await getRedisCache<any[]>('menuItems');
-    if (redis) { memSet('menuItems', redis, 300); return redis; }
-  } catch (e) {
-    console.warn('[actions] Redis read failed:', e);
-  }
-
   try {
     const { data, error } = await supabase
       .from('menu_items')
@@ -44,77 +21,38 @@ export async function getMenuItems(): Promise<any[]> {
       .order('id');
     if (error) {
       console.error('[actions] Supabase query error:', error);
-      const fallback = FALLBACK_MENU.map((item: any) => ({
-        ...item,
-        available: true,
-        rating: item.rating || 4.5,
-        created_at: new Date().toISOString(),
-      }));
-      memSet('menuItems', fallback, 300);
-      return fallback;
+      return getFallbackMenu();
     }
-
     if (!data || data.length === 0) {
-      console.warn('[actions] Supabase returned 0 items, using fallback menu');
-      const fallback = FALLBACK_MENU.map((item: any) => ({
-        ...item,
-        available: true,
-        rating: item.rating || 4.5,
-        created_at: new Date().toISOString(),
-      }));
-      memSet('menuItems', fallback, 300);
-      return fallback;
+      console.warn('[actions] Supabase returned 0 items, using fallback');
+      return getFallbackMenu();
     }
-
-    const items = (data || []).map((item: any) => ({
+    return data.map((item: any) => ({
       ...item,
       available: true,
       image: `/api/menu/image/${item.id}`,
     }));
-
-    memSet('menuItems', items, 300);
-    try {
-      await setRedisCache('menuItems', items, 300);
-    } catch (e) {
-      console.warn('[actions] Redis write failed:', e);
-    }
-    return items;
   } catch (e) {
     console.error('[actions] getMenuItems failed:', e);
-    const fallback = FALLBACK_MENU.map((item: any) => ({
-      ...item,
-      available: true,
-      rating: item.rating || 4.5,
-      created_at: new Date().toISOString(),
-    }));
-    memSet('menuItems', fallback, 300);
-    return fallback;
+    return getFallbackMenu();
   }
 }
 
-// Fetch a single menu item's raw image (used by admin for uploads/edits)
 export async function getMenuItemImage(id: number): Promise<string | null> {
-  const { data, error } = await supabase
-    .from('menu_items')
-    .select('image')
-    .eq('id', id)
-    .single();
-  if (error || !data) return null;
-  return data.image;
+  try {
+    const { data, error } = await supabase
+      .from('menu_items')
+      .select('image')
+      .eq('id', id)
+      .single();
+    if (error || !data) return null;
+    return data.image;
+  } catch {
+    return null;
+  }
 }
 
-// Menu Images — also large, same strategy
 export async function getMenuImages(): Promise<any[]> {
-  const mem = memGet<any[]>('menuImages');
-  if (mem) return mem;
-
-  try {
-    const redis = await getRedisCache<any[]>('menuImages');
-    if (redis) { memSet('menuImages', redis, 600); return redis; }
-  } catch (e) {
-    console.warn('[actions] Redis read failed for images:', e);
-  }
-
   try {
     const { data, error } = await supabase
       .from('menu_items')
@@ -124,15 +62,7 @@ export async function getMenuImages(): Promise<any[]> {
       console.error('[actions] Supabase query error (images):', error);
       return [];
     }
-
-    const images = data || [];
-    memSet('menuImages', images, 600);
-    try {
-      await setRedisCache('menuImages', images, 600);
-    } catch (e) {
-      console.warn('[actions] Redis write failed for images:', e);
-    }
-    return images;
+    return data || [];
   } catch (e) {
     console.error('[actions] getMenuImages failed:', e);
     return [];
@@ -140,27 +70,21 @@ export async function getMenuImages(): Promise<any[]> {
 }
 
 export async function seedMenuItems(items: Record<string, unknown>[]) {
-  const { data, error } = await supabase.from('menu_items').upsert(items, { onConflict: 'id' }).select();
-  if (error) return { success: false, error: error.message };
-
-  // Invalidate cache
-  clearMemCache('menuItems', 'menuImages');
-  await deleteCache('menuItems');
-  await deleteCache('menuImages');
-
-  return { success: true, data };
+  try {
+    const { data, error } = await supabase.from('menu_items').upsert(items, { onConflict: 'id' }).select();
+    if (error) return { success: false, error: error.message };
+    try { revalidateTag('menu', 'default'); } catch {}
+    return { success: true, data };
+  } catch (e) {
+    return { success: false, error: e instanceof Error ? e.message : 'Unknown error' };
+  }
 }
 
 export async function addMenuItem(item: Record<string, unknown>) {
   try {
     const { data, error } = await supabase.from('menu_items').insert(item).select();
     if (error) return { success: false, error: error.message };
-    
-    // Invalidate cache
-    clearMemCache('menuItems', 'menuImages');
-    await deleteCache('menuItems');
-    await deleteCache('menuImages');
-    
+    try { revalidateTag('menu', 'default'); } catch {}
     return { success: true, data: data?.[0] || data };
   } catch (e) {
     return { success: false, error: e instanceof Error ? e.message : 'Unknown error' };
@@ -174,20 +98,10 @@ export async function updateMenuItem(id: number, item: Record<string, unknown>) 
     if (!data || data.length === 0) {
       const { data: inserted, error: insertError } = await supabase.from('menu_items').insert({ id, ...item }).select();
       if (insertError) return { success: false, error: insertError.message };
-      
-      // Invalidate cache
-      clearMemCache('menuItems', 'menuImages');
-      await deleteCache('menuItems');
-      await deleteCache('menuImages');
-      
+      try { revalidateTag('menu', 'default'); } catch {}
       return { success: true, data: inserted?.[0] || inserted };
     }
-    
-    // Invalidate cache
-    clearMemCache('menuItems', 'menuImages');
-    await deleteCache('menuItems');
-    await deleteCache('menuImages');
-    
+    try { revalidateTag('menu', 'default'); } catch {}
     return { success: true, data: data[0] };
   } catch (e) {
     return { success: false, error: e instanceof Error ? e.message : 'Unknown error' };
@@ -195,13 +109,13 @@ export async function updateMenuItem(id: number, item: Record<string, unknown>) 
 }
 
 export async function deleteMenuItem(id: number) {
-  const { error } = await supabase.from('menu_items').delete().eq('id', id);
-  if (error) throw new Error(error.message);
-  
-  // Invalidate cache
-  clearMemCache('menuItems', 'menuImages');
-  await deleteCache('menuItems');
-  await deleteCache('menuImages');
+  try {
+    const { error } = await supabase.from('menu_items').delete().eq('id', id);
+    if (error) throw new Error(error.message);
+    try { revalidateTag('menu', 'default'); } catch {}
+  } catch (e) {
+    throw e;
+  }
 }
 
 // Orders
@@ -340,13 +254,8 @@ export async function deleteReview(id: number) {
 }
 
 // Restaurant Settings
-const getCachedRestaurantSettings = unstable_cache(
-  async () => {
-    // Try Redis cache first (optional/fail-fast)
-    const cached = await getRedisCache<any>('restaurantSettings');
-    if (cached) return cached;
-
-    // Fetch from database
+export async function getRestaurantSettings() {
+  try {
     const { data, error } = await supabase
       .from('restaurant_settings')
       .select('id,name,description,address,phone,email,website,opening_hours_weekdays,opening_hours_weekends,logo,cover_image,instagram,telegram,tiktok,youtube,facebook')
@@ -355,19 +264,11 @@ const getCachedRestaurantSettings = unstable_cache(
       if (error.code === 'PGRST116') return null;
       throw new Error(error.message);
     }
-    
-    // Cache in Redis for 10 minutes
-    if (data) {
-      await setRedisCache('restaurantSettings', data, 600);
-    }
     return data;
-  },
-  ['restaurant-settings'],
-  { revalidate: 3600, tags: ['restaurant-settings'] }
-);
-
-export async function getRestaurantSettings() {
-  return getCachedRestaurantSettings();
+  } catch (e) {
+    console.error('[actions] getRestaurantSettings failed:', e);
+    return null;
+  }
 }
 
 export async function saveRestaurantSettings(settings: Record<string, unknown>) {
@@ -380,10 +281,7 @@ export async function saveRestaurantSettings(settings: Record<string, unknown>) 
       .select()
       .single();
     if (error) throw new Error(error.message);
-    
-    // Invalidate cache
-    await deleteCache('restaurantSettings');
-    revalidateTag('restaurant-settings', 'default');
+    try { revalidateTag('restaurant-settings', 'default'); } catch {}
     return data;
   }
   const { data, error } = await supabase
@@ -392,9 +290,6 @@ export async function saveRestaurantSettings(settings: Record<string, unknown>) 
     .select()
     .single();
   if (error) throw new Error(error.message);
-  
-  // Invalidate cache
-  await deleteCache('restaurantSettings');
-  revalidateTag('restaurant-settings', 'default');
+  try { revalidateTag('restaurant-settings', 'default'); } catch {}
   return data;
 }
