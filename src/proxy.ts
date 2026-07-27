@@ -1,12 +1,9 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-// Runs at the edge — zero cold-start, no server action round-trip.
-// Protects all /admin/* routes except /admin/login.
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Only guard admin routes (not login)
   if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
     const session = request.cookies.get('admin_session');
     if (session?.value !== 'authenticated') {
