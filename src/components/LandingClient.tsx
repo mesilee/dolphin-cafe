@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowRight, MapPin, Phone } from 'lucide-react';
+import { ArrowRight, MapPin, Phone, Download } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -161,17 +161,55 @@ export default function LandingClient({ initialSettings, initialFeatured }: Land
             transition={{ duration: 0.6, delay: 0.6 }}
             className="inline-block"
           >
-            <div className="bg-white rounded-3xl shadow-[0_10px_40px_rgba(37,99,235,0.12)] border border-[#2563EB]/10 p-5">
-              <QRCodeSVG
-                value="https://dolphin-cafe-and-restaurant.vercel.app/menu"
-                size={130}
-                level="H"
-                includeMargin
-                fgColor="#1D4ED8"
-                bgColor="#ffffff"
-              />
+            <Link href="/menu" className="group block">
+              <div className="bg-white rounded-3xl shadow-[0_10px_40px_rgba(37,99,235,0.12)] border border-[#2563EB]/10 p-5 group-hover:shadow-[0_10px_50px_rgba(37,99,235,0.25)] group-hover:border-[#2563EB]/30 transition-all duration-300">
+                <div id="landing-qr">
+                  <QRCodeSVG
+                    value="https://dolphin-cafe-and-restaurant.vercel.app/menu"
+                    size={180}
+                    level="H"
+                    includeMargin
+                    fgColor="#1D4ED8"
+                    bgColor="#ffffff"
+                  />
+                </div>
+              </div>
+            </Link>
+            <div className="mt-3 flex flex-col items-center gap-2">
+              <p className="text-[#1a1a2e]/35 text-xs tracking-wider uppercase">Scan to view menu</p>
+              <div className="flex items-center gap-3">
+                <Link
+                  href="/menu"
+                  className="text-[#2563EB] text-xs font-medium hover:underline"
+                >
+                  Or tap here
+                </Link>
+                <button
+                  onClick={() => {
+                    const svg = document.getElementById('landing-qr');
+                    if (!svg) return;
+                    const svgData = new XMLSerializer().serializeToString(svg);
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    const img = new window.Image();
+                    img.onload = () => {
+                      canvas.width = img.width;
+                      canvas.height = img.height;
+                      ctx?.drawImage(img, 0, 0);
+                      const png = canvas.toDataURL('image/png');
+                      const a = document.createElement('a');
+                      a.download = 'dolphin-cafe-qr.png';
+                      a.href = png;
+                      a.click();
+                    };
+                    img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+                  }}
+                  className="flex items-center gap-1 text-[#1a1a2e]/30 hover:text-[#2563EB] text-xs transition-colors"
+                >
+                  <Download className="w-3 h-3" /> Download QR
+                </button>
+              </div>
             </div>
-            <p className="mt-3 text-[#1a1a2e]/35 text-xs tracking-wider uppercase">Scan to view menu</p>
           </motion.div>
 
           {/* Contact with curved divider */}
