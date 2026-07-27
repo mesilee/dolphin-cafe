@@ -50,10 +50,18 @@ export function MenuView({
 
   const refreshMenu = useCallback(async () => {
     try {
-      const res = await fetch('/api/menu', { next: { revalidate: 3600 } } as any);
+      const res = await fetch('/api/menu', { cache: 'no-store' });
       const data = await res.json();
-      if (data.length > 0) { setMenuItems(data); setCache('menuItems', data); }
-    } catch {}
+      if (Array.isArray(data) && data.length > 0) {
+        setMenuItems(data);
+        setCache('menuItems', data);
+      } else {
+        setMenuItems((prev) => (prev === null ? [] : prev));
+      }
+    } catch (e) {
+      console.error('[MenuView] refreshMenu failed:', e);
+      setMenuItems((prev) => (prev === null ? [] : prev));
+    }
   }, []);
 
   useEffect(() => {
@@ -73,7 +81,7 @@ export function MenuView({
         refreshMenu();
       }
     }
-  }, [searchParams, initialMenuItems, initialCategory, refreshMenu]);
+  }, [searchParams, initialMenuItems, initialCategory]);
 
   useEffect(() => {
     if (!initialSettings) {
@@ -324,11 +332,7 @@ export function MenuView({
                         </div>
                       </button>
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                      {!item.available && (
-                        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center rounded-xl">
-                          <span className="text-white/80 text-xs font-semibold px-3 py-1.5 rounded-full bg-red-500/20 border border-red-500/30">Unavailable</span>
-                        </div>
-                      )}
+
                     </div>
                     <div className="flex min-w-0 flex-1 flex-col justify-between gap-y-1 px-1.5 py-1.5">
                       <button
@@ -344,16 +348,11 @@ export function MenuView({
                         </span>
                         <button
                           type="button"
-                          disabled={!item.available}
                           onClick={(e) => {
                             e.stopPropagation();
-                            if (item.available) handleAddToCart(item, 1, []);
+                            handleAddToCart(item, 1, []);
                           }}
-                          className={`inline-flex h-9 w-9 items-center justify-center rounded-xl shadow-sm transition-all active:scale-90 ${
-                            item.available
-                              ? 'bg-gradient-to-br from-[#2563EB] to-[#60A5FA] text-white hover:shadow-lg hover:shadow-[#2563EB]/30'
-                              : 'bg-white/10 text-white/30 cursor-not-allowed'
-                          }`}
+                          className="inline-flex h-9 w-9 items-center justify-center rounded-xl shadow-sm transition-all active:scale-90 bg-gradient-to-br from-[#2563EB] to-[#60A5FA] text-white hover:shadow-lg hover:shadow-[#2563EB]/30"
                           aria-label={`Add ${item.name} to order`}
                         >
                           <Plus className="h-4 w-4" />

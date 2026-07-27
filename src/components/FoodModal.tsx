@@ -94,11 +94,6 @@ export function FoodModal({ item, isOpen, onClose, onAddToCart }: FoodModalProps
                       {item.image}
                     </div>
                   )}
-                  {!item.available && (
-                    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center">
-                      <span className="text-white font-semibold text-lg px-4 py-2 rounded-full bg-red-500/20 border border-red-500/30">Currently Unavailable</span>
-                    </div>
-                  )}
                 </div>
 
                 <div className="p-6">
@@ -204,17 +199,12 @@ export function FoodModal({ item, isOpen, onClose, onAddToCart }: FoodModalProps
                       <p className="text-3xl font-bold text-[#2563EB]">ETB {totalPrice}</p>
                     </div>
                     <motion.button
-                      whileHover={item.available ? { scale: 1.05 } : {}}
-                      whileTap={item.available ? { scale: 0.95 } : {}}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
                       onClick={handleAddToCart}
-                      disabled={!item.available}
-                      className={`px-8 py-4 rounded-full font-bold text-lg transition-colors ${
-                        item.available
-                          ? 'bg-[#2563EB] text-white hover:bg-[#1D4ED8]'
-                          : 'bg-white/10 text-white/30 cursor-not-allowed'
-                      }`}
+                      className="px-8 py-4 rounded-full font-bold text-lg transition-colors bg-[#2563EB] text-white hover:bg-[#1D4ED8]"
                     >
-                      {item.available ? 'Add to Cart' : 'Unavailable'}
+                      Add to Cart
                     </motion.button>
                   </div>
                 </div>

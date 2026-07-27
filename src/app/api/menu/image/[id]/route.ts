@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 const CACHE_ONE_YEAR = 'public, max-age=31536000, immutable';
 
@@ -31,51 +32,48 @@ export async function GET(
     });
   }
 
-  const { data, error } = await supabase
-    .from('menu_items')
-    .select('image')
-    .eq('id', numericId)
-    .single();
+  try {
+    const { data, error } = await supabase
+      .from('menu_items')
+      .select('image')
+      .eq('id', numericId)
+      .single();
 
-  if (error || !data?.image) {
-    return NextResponse.json({ error: 'Not found' }, { status: 404 });
-  }
-
-  const image: string = data.image;
-
-  if (image.startsWith('http://') || image.startsWith('https://')) {
-    return NextResponse.redirect(image, 302);
-  }
-
-  if (image.startsWith('data:')) {
-    const commaIndex = image.indexOf(',');
-    if (commaIndex === -1) {
-      return NextResponse.json({ error: 'Invalid data URI' }, { status: 400 });
+    if (error || !data?.image) {
+      return NextResponse.json({ error: 'Not found' }, { status: 404 });
     }
 
-    const meta = image.substring(0, commaIndex);
-    const raw = image.substring(commaIndex + 1);
-    const isBase64 = meta.endsWith(';base64');
-    const body = isBase64 ? Buffer.from(raw, 'base64') : Buffer.from(decodeURIComponent(raw));
+    const image: string = data.image;
 
-    const mimeMatch = meta.match(/data:([^;,]+)/);
-    const contentType = mimeMatch?.[1] || 'image/jpeg';
+    if (image.startsWith('http://') || image.startsWith('https://')) {
+      return NextResponse.redirect(image, 302);
+    }
 
-    const arrayBuf = body.buffer.slice(body.byteOffset, body.byteOffset + body.byteLength) as ArrayBuffer;
+    if (image.startsWith('data:')) {
+      const commaIndex = image.indexOf(',');
+      if (commaIndex === -1) {
+        return NextResponse.json({ error: 'Invalid data URI' }, { status: 400 });
+      }
 
-    imageCache.set(cacheKey, {
-      body: arrayBuf,
-      contentType,
-      expiry: Date.now() + IMAGE_TTL,
-    });
+      const meta = image.substring(0, commaIndex);
+      const raw = image.substring(commaIndex + 1);
+      const isBase64 = meta.endsWith(';base64');
+      const body = isBase64 ? Buffer.from(raw, 'base64') : Buffer.from(decodeURIComponent(raw));
 
-    return new NextResponse(body, {
-      headers: {
-        'Content-Type': contentType,
-        'Cache-Control': CACHE_ONE_YEAR,
-      },
-    });
+      const mimeMatch = meta.match(/data:([^;,]+)/);
+      const contentType = mimeMatch?.[1] || 'image/jpeg';
+
+      const arrayBuf = body.buffer.slice(body.byteOffset, body.byteOffset + body.byteLength) as ArrayBuffer;
+
+      imageCache.set(cacheKey, { body: arrayBuf, contentType, expiry: Date.now() + IMAGE_TTL });
+
+      return new NextResponse(body, {
+        headers: { 'Content-Type': contentType, 'Cache-Control': CACHE_ONE_YEAR },
+      });
+    }
+
+    return NextResponse.json({ error: 'Unsupported image format' }, { status: 400 });
+  } catch {
+    return NextResponse.json({ error: 'Failed to load image' }, { status: 500 });
   }
-
-  return NextResponse.json({ error: 'Unsupported image format' }, { status: 400 });
 }

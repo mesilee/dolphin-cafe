@@ -29,23 +29,40 @@ export async function getMenuItems(): Promise<any[]> {
   const mem = memGet<any[]>('menuItems');
   if (mem) return mem;
 
-  const redis = await getRedisCache<any[]>('menuItems');
-  if (redis) { memSet('menuItems', redis, 300); return redis; }
+  try {
+    const redis = await getRedisCache<any[]>('menuItems');
+    if (redis) { memSet('menuItems', redis, 300); return redis; }
+  } catch (e) {
+    console.warn('[actions] Redis read failed:', e);
+  }
 
-  const { data, error } = await supabase
-    .from('menu_items')
-    .select('id,name,description,price,category,available,rating,created_at')
-    .order('id');
-  if (error) throw new Error(error.message);
+  try {
+    const { data, error } = await supabase
+      .from('menu_items')
+      .select('id,name,description,price,category,available,rating,created_at')
+      .order('id');
+    if (error) {
+      console.error('[actions] Supabase query error:', error);
+      return [];
+    }
 
-  const items = (data || []).map((item: any) => ({
-    ...item,
-    image: `/api/menu/image/${item.id}`,
-  }));
+    const items = (data || []).map((item: any) => ({
+      ...item,
+      available: true,
+      image: `/api/menu/image/${item.id}`,
+    }));
 
-  memSet('menuItems', items, 300);
-  await setRedisCache('menuItems', items, 300);
-  return items;
+    memSet('menuItems', items, 300);
+    try {
+      await setRedisCache('menuItems', items, 300);
+    } catch (e) {
+      console.warn('[actions] Redis write failed:', e);
+    }
+    return items;
+  } catch (e) {
+    console.error('[actions] getMenuItems failed:', e);
+    return [];
+  }
 }
 
 // Fetch a single menu item's raw image (used by admin for uploads/edits)
@@ -64,19 +81,35 @@ export async function getMenuImages(): Promise<any[]> {
   const mem = memGet<any[]>('menuImages');
   if (mem) return mem;
 
-  const redis = await getRedisCache<any[]>('menuImages');
-  if (redis) { memSet('menuImages', redis, 600); return redis; }
+  try {
+    const redis = await getRedisCache<any[]>('menuImages');
+    if (redis) { memSet('menuImages', redis, 600); return redis; }
+  } catch (e) {
+    console.warn('[actions] Redis read failed for images:', e);
+  }
 
-  const { data, error } = await supabase
-    .from('menu_items')
-    .select('id,image')
-    .order('id');
-  if (error) throw new Error(error.message);
+  try {
+    const { data, error } = await supabase
+      .from('menu_items')
+      .select('id,image')
+      .order('id');
+    if (error) {
+      console.error('[actions] Supabase query error (images):', error);
+      return [];
+    }
 
-  const images = data || [];
-  memSet('menuImages', images, 600);
-  await setRedisCache('menuImages', images, 600);
-  return images;
+    const images = data || [];
+    memSet('menuImages', images, 600);
+    try {
+      await setRedisCache('menuImages', images, 600);
+    } catch (e) {
+      console.warn('[actions] Redis write failed for images:', e);
+    }
+    return images;
+  } catch (e) {
+    console.error('[actions] getMenuImages failed:', e);
+    return [];
+  }
 }
 
 export async function seedMenuItems(items: Record<string, unknown>[]) {

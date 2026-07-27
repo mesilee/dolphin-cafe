@@ -264,7 +264,7 @@ export default function LandingClient({ initialSettings, initialFeatured }: Land
         </svg>
         <div className="bg-[#f0f4ff] px-4 py-8 text-center">
           <div className="flex items-center justify-center gap-2 mb-2">
-            <Image src="/dolphin-logo.png" alt="Dolphin" width={24} height={24} className="rounded-full" />
+              <Image src="/dolphin-logo.png" alt="Dolphin" width={24} height={24} className="rounded-full" />
             <span className="text-sm font-semibold text-[#1a1a2e]/70">Dolphin Cafe & Restaurant</span>
           </div>
           <p className="text-xs text-[#1a1a2e]/30">&copy; {new Date().getFullYear()} Dolphin Cafe and Restaurant. All rights reserved.</p>

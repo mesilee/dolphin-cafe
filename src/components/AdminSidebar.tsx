@@ -166,7 +166,7 @@ export function AdminSidebar({ children }: { children: React.ReactNode }) {
             <div className="flex items-center justify-between h-14 px-4 border-b border-white/[0.06]">
               <div className="flex items-center gap-3">
                 <Image src="/dolphin-logo.png" alt="Dolphin" width={32} height={32} className="shrink-0" />
-                <span className="font-bold text-white">Dolphin Cafe</span>
+        <span className="font-bold text-white">Dolphin Cafe</span>
               </div>
               <button onClick={() => setMobileOpen(false)} className="text-white/50 hover:text-white">
                 <X className="w-5 h-5" />

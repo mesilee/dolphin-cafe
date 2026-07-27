@@ -177,7 +177,8 @@ export async function GET() {
       if (deleteError) throw deleteError;
     }
 
-    const { data, error } = await supabase.from('menu_items').insert(menuItems).select();
+    const itemsToInsert = menuItems.map(({ image, rating, ...rest }) => rest);
+    const { data, error } = await supabase.from('menu_items').insert(itemsToInsert).select();
     if (error) throw error;
 
     return Response.json({
