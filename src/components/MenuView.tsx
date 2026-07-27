@@ -406,7 +406,7 @@ export function MenuView({
             <div className="text-center">
               <h4 className="text-xs font-semibold uppercase tracking-widest text-black/40 dark:text-white/40 mb-4">Scan to Order</h4>
               <div className="inline-flex items-center justify-center w-28 h-28 rounded-2xl bg-white dark:bg-neutral-900 border border-black/10 dark:border-white/10 p-2 mx-auto">
-                <QRCodeSVG value="https://dolphin-cafe-and-restaurant.vercel.app/" size={100} level="H" includeMargin fgColor="#1D4ED8" bgColor="#ffffff" className="w-full h-full" />
+                <QRCodeSVG value="https://dolphin-cafe-and-restaurant.vercel.app/menu" size={100} level="H" includeMargin fgColor="#1D4ED8" bgColor="#ffffff" className="w-full h-full" />
               </div>
             </div>
 

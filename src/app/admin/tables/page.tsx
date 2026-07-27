@@ -4,12 +4,14 @@ import { TableManagement } from '@/components/TableManagement';
 import { useEffect, useState } from 'react';
 import { getRestaurantTables, addRestaurantTable, updateRestaurantTable, deleteRestaurantTable } from '@/lib/actions';
 
+const SITE_URL = 'https://dolphin-cafe-and-restaurant.vercel.app';
+
 const seedTables = async () => {
   const locations = ['Main Hall', 'Terrace', 'VIP Room', 'Garden', 'Balcony'];
   for (let i = 1; i <= 15; i++) {
     const capacity = i <= 5 ? 2 : i <= 10 ? 4 : 6;
     const location = locations[i % locations.length];
-    const qrCode = typeof window !== 'undefined' ? `${window.location.origin}/menu/${i}` : '';
+    const qrCode = `${SITE_URL}/menu/${i}`;
     await addRestaurantTable({ number: i.toString(), capacity, location, qr_code: qrCode, status: 'available' });
   }
 };
@@ -52,7 +54,7 @@ export default function AdminTablesPage() {
   }, []);
 
   const handleAdd = async (table: any) => {
-    const qrCode = typeof window !== 'undefined' ? `${window.location.origin}/menu/${table.number}` : '';
+    const qrCode = `${SITE_URL}/menu/${table.number}`;
     await addRestaurantTable({ ...table, qr_code: qrCode });
     setTables(await getRestaurantTables());
   };

@@ -22,7 +22,7 @@ export function TableManagement({ tables, onAdd, onEdit, onDelete }: TableManage
   const [editingTable, setEditingTable] = useState<Table | null>(null);
   const [selectedTable, setSelectedTable] = useState<Table | null>(null);
 
-  const getMenuUrl = (tableNumber: string) => `${window.location.origin}/menu/${tableNumber}`;
+  const getMenuUrl = (tableNumber: string) => `https://dolphin-cafe-and-restaurant.vercel.app/menu/${tableNumber}`;
 
   const statusConfig: Record<string, { label: string; color: string; bg: string }> = {
     available: { label: 'Available', color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
