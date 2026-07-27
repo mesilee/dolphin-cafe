@@ -3,6 +3,7 @@
 import { supabase } from './supabase';
 import { getCache as getRedisCache, setCache as setRedisCache, deleteCache } from './redis';
 import { unstable_cache, revalidateTag } from 'next/cache';
+import { FALLBACK_MENU } from './menu-data';
 
 // ---------------------------------------------------------------------------
 // In-process memory cache — survives between requests in the same Node process.
@@ -43,7 +44,26 @@ export async function getMenuItems(): Promise<any[]> {
       .order('id');
     if (error) {
       console.error('[actions] Supabase query error:', error);
-      return [];
+      const fallback = FALLBACK_MENU.map((item: any) => ({
+        ...item,
+        available: true,
+        rating: item.rating || 4.5,
+        created_at: new Date().toISOString(),
+      }));
+      memSet('menuItems', fallback, 300);
+      return fallback;
+    }
+
+    if (!data || data.length === 0) {
+      console.warn('[actions] Supabase returned 0 items, using fallback menu');
+      const fallback = FALLBACK_MENU.map((item: any) => ({
+        ...item,
+        available: true,
+        rating: item.rating || 4.5,
+        created_at: new Date().toISOString(),
+      }));
+      memSet('menuItems', fallback, 300);
+      return fallback;
     }
 
     const items = (data || []).map((item: any) => ({
@@ -61,7 +81,14 @@ export async function getMenuItems(): Promise<any[]> {
     return items;
   } catch (e) {
     console.error('[actions] getMenuItems failed:', e);
-    return [];
+    const fallback = FALLBACK_MENU.map((item: any) => ({
+      ...item,
+      available: true,
+      rating: item.rating || 4.5,
+      created_at: new Date().toISOString(),
+    }));
+    memSet('menuItems', fallback, 300);
+    return fallback;
   }
 }
 
